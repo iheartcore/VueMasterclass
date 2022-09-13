@@ -58,7 +58,6 @@ export default {
 </template>
 
 <style scoped>
-
 .post-list {
   margin-top: 20px;
 }
@@ -68,9 +67,8 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
   background-color: white;
-  padding: 20px 10px;
-  padding-bottom: 7px;
-  box-shadow: 2px 2px 1px rgba(136, 136, 136, 0.09);
+  padding: 20px 10px 7px;
+  box-shadow: 2px 2px 1px rgba(136 136 136 / 90%);
   margin-bottom: 20px;
 }
 
@@ -99,10 +97,9 @@ export default {
     order: -2;
     flex-direction: row;
     justify-content: flex-start;
-    background: rgba(73, 89, 96, 0.06);
+    background: rgba(73 89 96 / 6%);
     margin-right: 0;
-    padding: 5px;
-    padding-left: 10px;
+    padding: 5px 5px 5px 10px;
   }
 
   .post .user-info .avatar-large {
@@ -134,16 +131,16 @@ export default {
   .post .post-date {
     order: -1;
     flex-basis: 40%;
-    background: rgba(73, 89, 96, 0.06);
+    background: rgba(73 89 96 / 6%);
     padding-right: 10px;
     padding-top: 16px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 }
 
 @media (max-width: 720px) {
   .post {
-    padding: 0px;
+    padding: 0;
   }
 }
 
@@ -158,7 +155,9 @@ export default {
   word-break: break-word;
 }
 
-.post-content h1, .post-content h2, .post-content h3 {
+.post-content h1,
+.post-content h2,
+.post-content h3 {
   margin-bottom: 0;
 }
 
@@ -175,7 +174,7 @@ export default {
 }
 
 .post-content blockquote {
-  margin: 25px 0px;
+  margin: 25px 0;
 }
 
 .post-content blockquote.big {
@@ -188,8 +187,8 @@ export default {
   top: -25px;
   left: -25px;
   font-size: 42px;
-  font-family: FontAwesome;
-  content: "\f10e";
+  font-family: FontAwesome, sans-serif;
+  content: '\f10e';
   color: #263959;
 }
 
@@ -229,7 +228,7 @@ export default {
 .post-content blockquote.small {
   position: relative;
   flex-direction: column;
-  border: 2px solid rgba(152, 152, 152, 0.15);
+  border: 2px solid rgba(152 152 152 / 15%);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
@@ -239,8 +238,8 @@ export default {
   top: -20px;
   left: -20px;
   font-size: 42px;
-  font-family: FontAwesome;
-  content: "\f10e";
+  font-family: FontAwesome, sans-serif;
+  content: '\f10e';
   color: #263959;
 }
 
@@ -256,7 +255,7 @@ export default {
   display: flex;
   flex-basis: 100%;
   padding: 3px 10px 3px 28px;
-  background-color: rgba(152, 152, 152, 0.15);
+  background-color: rgba(152 152 152 / 15%);
   justify-content: center;
   align-items: center;
 }
@@ -286,11 +285,11 @@ export default {
 
 .post-content blockquote.simple {
   position: relative;
-  padding: 0px 10px 0px 20px;
+  padding: 0 10px 0 20px;
   font-weight: 100;
   font-style: italic;
   font-size: 17px;
-  letter-spacing: .15px;
+  letter-spacing: 0.15px;
 }
 
 .post-content blockquote.simple::before {
@@ -298,8 +297,8 @@ export default {
   top: -25px;
   left: -25px;
   font-size: 42px;
-  font-family: FontAwesome;
-  content: "\f10e";
+  font-family: FontAwesome, sans-serif;
+  content: '\f10e';
   color: #263959;
 }
 
