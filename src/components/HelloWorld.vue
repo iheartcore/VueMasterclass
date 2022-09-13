@@ -1,9 +1,3 @@
-<template>
-  <div>
-    {{ threads }}
-  </div>
-</template>
-
 <script lang="ts">
 import sourceData from '../data.json'
 export default {
@@ -15,6 +9,11 @@ export default {
 }
 </script>
 
+<template>
+  <div>
+    {{ threads }}
+  </div>
+</template>
 <style scoped>
 a {
   color: #42b983;
