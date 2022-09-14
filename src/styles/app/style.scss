@@ -6,7 +6,9 @@ body {
     line-height: 1.5;
     margin: 0;
     padding: 0;
-    font-family: 'Open Sans', sans-serif;
+    font-family:
+            'Open Sans',
+            sans-serif;
     color: #545454;
     font-size: 16px;
     overflow-x: hidden;
@@ -129,7 +131,9 @@ figcaption {
 
 .forum-list .forum-listing .forum-details ul.subforums.subforums li:not(:last-of-type)::after {
     content: '\f111';
-    font-family: FontAwesome, sans-serif;
+    font-family:
+            FontAwesome,
+            sans-serif;
     font-size: 4px;
     position: relative;
     top: -3px;
@@ -480,7 +484,9 @@ textarea#user_bio {
 }
 
 span.offline::before {
-    font-family: FontAwesome, sans-serif;
+    font-family:
+            FontAwesome,
+            sans-serif;
     content: "\f1db";
     font-size: 14px;
     margin-right: 5px;
@@ -491,7 +497,9 @@ span.online {
 }
 
 span.online::before {
-    font-family: FontAwesome, sans-serif;
+    font-family:
+            FontAwesome,
+            sans-serif;
     content: "\f2be";
     font-size: 14px;
     margin-right: 5px;
@@ -1594,7 +1602,9 @@ button a {
     border: none;
     color: #fff;
     cursor: pointer;
-    font-family: 'Open sans', sans-serif;
+    font-family:
+            'Open sans',
+            sans-serif;
     font-size: 18px;
     padding: 0 25px;
     right: 4px;
@@ -1888,7 +1898,9 @@ ul.breadcrumbs li {
 
 ul.breadcrumbs li:not(:last-of-type)::after {
     content: '\f105';
-    font-family: FontAwesome, sans-serif;
+    font-family:
+            FontAwesome,
+            sans-serif;
     margin: 0 4px;
     opacity: 0.6;
 }
@@ -2004,7 +2016,9 @@ ul.breadcrumbs li a:hover {
 
     #moderation ul.toolbar li.close-toolbar .fa::before {
         content: '\f107';
-        font-family: FontAwesome, sans-serif;
+        font-family:
+                FontAwesome,
+                sans-serif;
     }
 }
 
@@ -2052,7 +2066,9 @@ ul.breadcrumbs li a:hover {
 
     #moderation ul.toolbar-collapsed li.open-toolbar a::before {
         content: '\f106';
-        font-family: FontAwesome, sans-serif;
+        font-family:
+                FontAwesome,
+                sans-serif;
         font-size: 30px;
     }
 }
@@ -2463,8 +2479,8 @@ a > img:hover {
 hr {
     border: 0;
     height: 1px;
-    background: #333;
-    background-image: linear-gradient(to right, #f7f9fe, #d1d3d7, #f7f9fe);
+    background:
+            #333 linear-gradient(to right, #f7f9fe, #d1d3d7, #f7f9fe);
     margin-bottom: 20px;
 }
 

@@ -10,8 +10,8 @@ export default defineConfig(({ command, mode }) => {
   return {
     plugins: [
       vue(),
-      eslint(),
-      stylelint()],
+      eslint()],
+      // stylelint()],
     base: '/',
   }
 })
