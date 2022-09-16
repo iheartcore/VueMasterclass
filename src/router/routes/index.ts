@@ -1,4 +1,4 @@
-import PageHome from '../../components/PageHome.vue'
+import PageHome from '../../pages/TheHome.vue'
 
 export default {
   path: '/',
