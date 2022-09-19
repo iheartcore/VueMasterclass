@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import utils from './plugins/utils'
 
 import './styles/app/style.scss'
 
@@ -10,5 +11,6 @@ const app = createApp(App)
 app.config.unwrapInjectedRef = true
 
 app
+    .use(utils)
     .use(router)
     .mount('#app')

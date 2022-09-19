@@ -35,7 +35,7 @@ export default {
         <router-link :to="{ name: 'ThreadShow', params: { id: thread.id } }">{{ thread.title }}</router-link>
       </p>
       <p class="text-faded text-xsmall">
-        By <a href="#">{{ userById(thread.userId).name }}</a>, {{ thread.publishedAt }}
+        By <a href="#">{{ userById(thread.userId).name }}</a>, <span :title="$utils.format.date(thread.publishedAt)">{{ $utils.format.fromNow(thread.publishedAt) }}</span>
       </p>
     </div>
 
@@ -50,7 +50,7 @@ export default {
         <p class="text-xsmall">
           <a href="#">{{ userById(thread.userId).name }}</a>
         </p>
-        <p class="text-xsmall text-faded">{{ thread.publishedAt }}</p>
+        <p class="text-xsmall text-faded" :title="$utils.format.date(thread.publishedAt)">{{ $utils.format.fromNow(thread.publishedAt) }}</p>
       </div>
     </div>
   </div>

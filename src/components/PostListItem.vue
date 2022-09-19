@@ -16,6 +16,12 @@ export default {
   methods : {
     userById (userId) {
       return this.users.find(u => u.id === userId)
+    },
+    diffForHumans (timestamp) {
+      return this.$utils.format.fromNow(timestamp)
+    },
+    humanFriendlyDate (timestamp) {
+      return this.$utils.format.date(timestamp)
     }
   }
 }
@@ -39,8 +45,8 @@ export default {
       </div>
     </div>
 
-    <div class="post-date text-faded">
-      {{ post.publishedAt }}
+    <div class="post-date text-faded" :title="humanFriendlyDate(post.publishedAt)">
+      {{ diffForHumans(post.publishedAt) }}
     </div>
   </div>
 </template>
