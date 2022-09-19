@@ -1,11 +1,10 @@
 <script>
-import ThreadList from "../components/ThreadList.vue";
 import sourceData from '../data.json'
 
 export default {
-  components: { ThreadList },
   data () {
     return {
+      forums: sourceData.forums,
       threads: sourceData.threads
     }
   }
@@ -14,6 +13,7 @@ export default {
 
 <template>
   <h1>Welcome to the Forum</h1>
+  <ForumList :forums="forums" />
   <ThreadList :threads="threads" />
 </template>
 

@@ -8,6 +8,8 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AppDate: typeof import('./src/components/core/AppDate.vue')['default']
+    ForumList: typeof import('./src/components/ForumList.vue')['default']
+    ForumListItem: typeof import('./src/components/ForumListItem.vue')['default']
     PostEditor: typeof import('./src/components/PostEditor.vue')['default']
     PostList: typeof import('./src/components/PostList.vue')['default']
     PostListItem: typeof import('./src/components/PostListItem.vue')['default']
