@@ -1,7 +1,9 @@
 <script>
 import sourceData from '../data.json'
+import AppDate from '../components/AppDate.vue'
 
 export default {
+  components: { AppDate },
   props: {
     thread: {
       type: Object,
@@ -10,16 +12,12 @@ export default {
   },
   data () {
     return {
-      posts: sourceData.posts,
       users: sourceData.users
     }
   },
   methods : {
     reply (count) {
       return count === 1 ? count + ' reply' : count + ' replies'
-    },
-    postById (postId) {
-      return this.posts.find(p => p.id === postId)
     },
     userById (userId) {
       return this.users.find(u => u.id === userId)
@@ -35,7 +33,7 @@ export default {
         <router-link :to="{ name: 'ThreadShow', params: { id: thread.id } }">{{ thread.title }}</router-link>
       </p>
       <p class="text-faded text-xsmall">
-        By <a href="#">{{ userById(thread.userId).name }}</a>, <span :title="$utils.format.date(thread.publishedAt)">{{ $utils.format.fromNow(thread.publishedAt) }}</span>
+        By <a href="#">{{ userById(thread.userId).name }}</a>, <AppDate :date="thread.publishedAt" />
       </p>
     </div>
 
@@ -50,7 +48,7 @@ export default {
         <p class="text-xsmall">
           <a href="#">{{ userById(thread.userId).name }}</a>
         </p>
-        <p class="text-xsmall text-faded" :title="$utils.format.date(thread.publishedAt)">{{ $utils.format.fromNow(thread.publishedAt) }}</p>
+        <p class="text-xsmall text-faded"><AppDate :date="thread.publishedAt" /></p>
       </div>
     </div>
   </div>
