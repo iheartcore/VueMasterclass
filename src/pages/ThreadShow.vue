@@ -1,10 +1,7 @@
 <script>
 import sourceData from '../data.json'
-import PostList from '../components/PostList.vue'
-import PostEditor from '../components/PostEditor.vue'
 
 export default {
-  components: { PostList, PostEditor },
   props: {
     id: {
       type: String,

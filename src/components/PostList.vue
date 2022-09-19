@@ -1,8 +1,6 @@
 <script>
-import PostListItem from '../components/PostListItem.vue'
 
 export default {
-  components: { PostListItem },
   props: {
     posts: {
       type: Array,

@@ -1,8 +1,5 @@
 <script>
-import ThreadListItem from './ThreadListItem.vue'
-
 export default {
-  components: { ThreadListItem },
   props: {
     threads: {
       type: Array,
