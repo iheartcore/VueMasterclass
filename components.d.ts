@@ -17,6 +17,7 @@ declare module '@vue/runtime-core' {
     PostListItem: typeof import('./src/components/PostListItem.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TheNavbar: typeof import('./src/components/TheNavbar.vue')['default']
     ThreadList: typeof import('./src/components/ThreadList.vue')['default']
     ThreadListItem: typeof import('./src/components/ThreadListItem.vue')['default']
   }
