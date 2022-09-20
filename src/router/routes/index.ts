@@ -16,6 +16,7 @@ const routes = [
     path: '/me',
     name: 'Profile',
     component: Profile,
+    meta: { toTop: true, smoothScroll: true },
   },
   {
     path: '/me/edit',
