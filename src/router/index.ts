@@ -4,7 +4,7 @@ import ThreadShow from '../pages/ThreadShow.vue'
 import NotFound from '../pages/NotFound.vue'
 import Forum from '../pages/TheForum.vue'
 import Category from '../pages/TheCategory.vue'
-import sourceData from '../data.json'
+import { useStore } from '../stores'
 
 const routes = [
   {
@@ -31,7 +31,7 @@ const routes = [
     props: true,
     beforeEnter (to, from, next) {
       // check if thread exists
-      const threadExists = sourceData.threads.find(thread => thread.id === to.params.id)
+      const threadExists = useStore().$state.threads.find(thread => thread.id === to.params.id)
       if (threadExists) {
         return next()
       } else {

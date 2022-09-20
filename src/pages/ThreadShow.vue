@@ -29,8 +29,7 @@ export default {
         threadId: this.id
       }
 
-      this.posts.push(post)
-      this.thread.posts.push(post.id)
+      useStore().createPost(post)
     }
   }
 }
