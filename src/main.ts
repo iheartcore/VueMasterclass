@@ -12,8 +12,4 @@ const app = createApp(App)
 // TODO: Remove when vuejs is upgraded to >=3.3
 app.config.unwrapInjectedRef = true
 
-app
-    .use(pinia)
-    .use(utils)
-    .use(router)
-    .mount('#app')
+app.use(pinia).use(utils).use(router).mount('#app')

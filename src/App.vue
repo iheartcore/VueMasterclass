@@ -1,6 +1,5 @@
 <script lang="ts">
-export default {
-}
+  export default {}
 </script>
 
 <template>
@@ -9,4 +8,3 @@ export default {
     <router-view />
   </div>
 </template>
-

@@ -1,38 +1,41 @@
 <script>
-import { mapState } from 'pinia'
-import { useStore } from '../stores'
+  import { mapState } from 'pinia'
+  import { useStore } from '@/stores'
 
-export default {
-  props: {
-    thread: {
-      type: Object,
-      required: true
-    }
-  },
-  computed: {
-    ...mapState(useStore, {
-      users: store => store.$state.users
-    })
-  },
-  methods : {
-    reply (count) {
-      return count === 1 ? count + ' reply' : count + ' replies'
+  export default {
+    props: {
+      thread: {
+        type: Object,
+        required: true,
+      },
     },
-    userById (userId) {
-      return this.users.find(u => u.id === userId)
-    }
+    computed: {
+      ...mapState(useStore, {
+        users: (store) => store.$state.users,
+      }),
+    },
+    methods: {
+      reply(count) {
+        return count === 1 ? count + ' reply' : count + ' replies'
+      },
+      userById(userId) {
+        return this.users.find((u) => u.id === userId)
+      },
+    },
   }
-}
 </script>
 
 <template>
   <div class="thread">
     <div>
       <p>
-        <router-link :to="{ name: 'ThreadShow', params: { id: thread.id } }">{{ thread.title }}</router-link>
+        <router-link :to="{ name: 'ThreadShow', params: { id: thread.id } }">{{
+          thread.title
+        }}</router-link>
       </p>
       <p class="text-faded text-xsmall">
-        By <a href="#">{{ userById(thread.userId)?.name }}</a>, <AppDate :date="thread.publishedAt" />
+        By <a href="#">{{ userById(thread.userId)?.name }}</a
+        >, <AppDate :date="thread.publishedAt" />
       </p>
     </div>
 
@@ -41,13 +44,19 @@ export default {
         {{ reply(thread.posts?.length) }}
       </p>
 
-      <img :src="userById(thread.userId)?.avatar" alt="" class="avatar-medium" />
+      <img
+        :src="userById(thread.userId)?.avatar"
+        alt=""
+        class="avatar-medium"
+      />
 
       <div>
         <p class="text-xsmall">
           <a href="#">{{ userById(thread.userId)?.name }}</a>
         </p>
-        <p class="text-xsmall text-faded"><AppDate :date="thread.publishedAt" /></p>
+        <p class="text-xsmall text-faded">
+          <AppDate :date="thread.publishedAt" />
+        </p>
       </div>
     </div>
   </div>

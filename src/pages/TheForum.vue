@@ -1,26 +1,26 @@
 <script>
-import { mapState } from 'pinia'
-import { useStore } from '../stores'
+  import { mapState } from 'pinia'
+  import { useStore } from '@/stores'
 
-export default {
-  props: {
-    id: {
-      type: String,
-      required: true
-    }
-  },
-  computed: {
-    ...mapState(useStore, {
-      forums: store => store.forums
-    }),
-    forum () {
-      return this.forums.find(forum => forum.id === this.id)
+  export default {
+    props: {
+      id: {
+        type: String,
+        required: true,
+      },
     },
-    threads () {
-      return useStore().threads.filter(thread => thread.forumId === this.id)
-    }
+    computed: {
+      ...mapState(useStore, {
+        forums: (store) => store.forums,
+      }),
+      forum() {
+        return this.forums.find((forum) => forum.id === this.id)
+      },
+      threads() {
+        return useStore().threads.filter((thread) => thread.forumId === this.id)
+      },
+    },
   }
-}
 </script>
 
 <template>
@@ -34,6 +34,6 @@ export default {
     </div>
   </div>
   <div class="col-full push-top">
-    <ThreadList :threads="threads"/>
+    <ThreadList :threads="threads" />
   </div>
 </template>

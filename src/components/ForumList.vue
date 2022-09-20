@@ -1,13 +1,12 @@
 <script>
-
-export default {
-  props: {
-    forums: {
-      type: Array,
-      required: true
-    }
+  export default {
+    props: {
+      forums: {
+        type: Array,
+        required: true,
+      },
+    },
   }
-}
 </script>
 
 <template>
@@ -15,4 +14,3 @@ export default {
     <ForumListItem :forum="forum" />
   </div>
 </template>
-

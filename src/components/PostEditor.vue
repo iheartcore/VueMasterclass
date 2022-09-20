@@ -1,31 +1,38 @@
 <script>
-export default {
-  emits: ['save'],
-  data () {
-    return {
-      postText: ''
-    }
-  },
-  methods: {
-    save () {
-      const post = {
-        text: this.postText,
-        publishedAt: Math.floor(Date.now() / 1000),
-        userId: 'rpbB8C6ifrYmNDufMERWfQUoa202'
+  export default {
+    emits: ['save'],
+    data() {
+      return {
+        postText: '',
       }
-      this.$emit('save', { post })
+    },
+    methods: {
+      save() {
+        const post = {
+          text: this.postText,
+          publishedAt: Math.floor(Date.now() / 1000),
+          userId: 'rpbB8C6ifrYmNDufMERWfQUoa202',
+        }
+        this.$emit('save', { post })
 
-      this.postText = ''
-    }
+        this.postText = ''
+      },
+    },
   }
-}
 </script>
 
 <template>
   <div class="col-full">
     <form @submit.prevent="save">
       <div class="form-group">
-        <textarea id="" v-model="postText" class="form-input" name="" cols="30" rows="10"></textarea>
+        <textarea
+          id=""
+          v-model="postText"
+          class="form-input"
+          name=""
+          cols="30"
+          rows="10"
+        ></textarea>
       </div>
       <div class="form-actions">
         <button class="btn-blue">Submit post</button>

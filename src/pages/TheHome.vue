@@ -1,14 +1,14 @@
 <script>
-import { mapState } from 'pinia'
-import { useStore } from '../stores'
-export default {
-  computed: {
-    ...mapState(useStore, {
-      categories: store => store.$state.categories,
-      threads: store => store.$state.threads
-    })
+  import { mapState } from 'pinia'
+  import { useStore } from '@/stores'
+  export default {
+    computed: {
+      ...mapState(useStore, {
+        categories: (store) => store.$state.categories,
+        threads: (store) => store.$state.threads,
+      }),
+    },
   }
-}
 </script>
 
 <template>
@@ -16,4 +16,3 @@ export default {
   <CategoryList :categories="categories" />
   <ThreadList :threads="threads" />
 </template>
-
