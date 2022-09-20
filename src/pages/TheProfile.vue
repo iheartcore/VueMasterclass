@@ -1,26 +1,12 @@
 <script>
 import { useStore } from '../stores'
-import { mapState } from 'Pinia'
+import { mapState } from 'pinia'
 
 export default {
   computed: {
     ...mapState(useStore, {
       user: store => store.authUser,
-      posts: store => store.$state.posts,
-      threads: store => store.$state.threads
-    }),
-    userPostsCount () {
-      return this.userPosts.length
-    },
-    userThreadsCount () {
-      return this.userThreads.length
-    },
-    userPosts () {
-      return this.posts.filter(posts => posts.userId === this.user.id)
-    },
-    userThreads () {
-      return this.threads.filter(posts => posts.userId === this.user.id)
-    }
+    })
   }
 }
 </script>
@@ -29,30 +15,7 @@ export default {
   <div class="container">
     <div class="flex-grid">
       <div class="col-3 push-top">
-        <div class="profile-card">
-          <p class="text-center">
-            <img
-                :src="user.avatar"
-                :alt="`${user.name}'s profile picture`"
-                class="avatar-xlarge"
-            />
-          </p>
-
-          <h1 class="title">{{ user.username }}</h1>
-          <p class="text-lead">{{ user.name }}</p>
-          <p class="text-justify">
-            {{ user.bio || 'No bio specified.' }}
-          </p>
-
-          <span class="online">{{ user.username }} is online</span>
-
-          <div class="stats">
-            <span>{{ userPostsCount }} posts</span>
-            <span>{{ userThreadsCount }} threads</span>
-          </div>
-          <hr>
-          <p v-if="user.website" class="text-large text-center"><i class="fa fa-globe"></i> <a :href="user.website">{{ user.website }}</a></p>
-        </div>
+        <UserProfileCard :user="user" />
 
         <p class="text-xsmall text-faded text-center">Member since june 2003, last visited 4 hours ago</p>
 
@@ -72,7 +35,7 @@ export default {
 
         <hr>
 
-        <PostList :posts="userPosts" />
+        <PostList :posts="user.posts" />
 
         <div class="activity-list">
           <div class="activity">

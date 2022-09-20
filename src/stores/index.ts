@@ -14,7 +14,25 @@ export const useStore = defineStore('main', {
     },
     getters : {
         authUser(state) {
-            return state.users.find(user => user.id === state.authId)
+            const user = state.users.find(user => user.id === state.authId)
+
+            if(!user) return null
+
+            return {
+                ...user,
+                get posts () {
+                    return state.posts.filter(posts => posts.userId === user.id)
+                },
+                get threads () {
+                    return state.threads.filter(posts => posts.userId === user.id)
+                },
+                get postsCount () {
+                    return this.posts.length
+                },
+                get threadsCount () {
+                    return this.threads.length
+                },
+            }
         }
     },
     actions: {
