@@ -38,6 +38,8 @@ export const useStore = defineStore('main', {
   actions: {
     createPost({ post }: { post: any }) {
       post.id = 'sdfsa' + Math.random()
+      post.userId = this.authId
+      post.publishedAt = Math.floor(Date.now() / 1000)
       this.posts.push(post)
       this.appendPostToThread({ postId: post.id, threadId: post.threadId })
     },

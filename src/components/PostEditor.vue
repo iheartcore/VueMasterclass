@@ -10,8 +10,6 @@
       save() {
         const post = {
           text: this.postText,
-          publishedAt: Math.floor(Date.now() / 1000),
-          userId: 'rpbB8C6ifrYmNDufMERWfQUoa202',
         }
         this.$emit('save', { post })
 
