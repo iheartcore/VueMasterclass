@@ -1,5 +1,6 @@
 <script>
-import sourceData from '../data.json'
+import { mapState } from 'pinia'
+import { useStore } from '../stores'
 
 export default {
   props: {
@@ -8,10 +9,10 @@ export default {
       required: true
     }
   },
-  data () {
-    return {
-      users: sourceData.users
-    }
+  computed: {
+    ...mapState(useStore, {
+      users: store => store.$state.users
+    })
   },
   methods : {
     reply (count) {

@@ -1,5 +1,7 @@
 <script>
-import sourceData from '../data.json'
+
+import { mapState } from 'pinia'
+import { useStore } from '../stores'
 
 export default {
   props: {
@@ -8,13 +10,11 @@ export default {
       required: true
     }
   },
-  data () {
-    return {
-      threads: sourceData.threads,
-      posts: sourceData.posts
-    }
-  },
   computed: {
+    ...mapState(useStore, {
+      threads: store => store.$state.threads,
+      posts: store => store.$state.posts
+    }),
     thread () {
       return this.threads.find(thread=> thread.id === this.id)
     },

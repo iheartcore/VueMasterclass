@@ -1,5 +1,6 @@
 <script>
-import sourceData from '../data.json'
+import { mapState } from 'pinia'
+import { useStore } from '../stores'
 
 export default {
   props: {
@@ -9,11 +10,15 @@ export default {
     }
   },
   computed: {
+    ...mapState(useStore, {
+      forums: store => store.$state.forums,
+      threads: store => store.$state.threads
+    }),
     forum () {
-      return sourceData.forums.find(forum => forum.id === this.id)
+      return this.forums.find(forum => forum.id === this.id)
     },
     threads () {
-      return sourceData.threads.filter(thread => thread.forumId === this.id)
+      return this.threads.filter(thread => thread.forumId === this.id)
     }
   }
 }

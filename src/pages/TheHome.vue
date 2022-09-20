@@ -1,13 +1,12 @@
 <script>
-import sourceData from '../data.json'
-
+import { mapState } from 'pinia'
+import { useStore } from '../stores'
 export default {
-  data () {
-    return {
-      categories: sourceData.categories,
-      forums: sourceData.forums,
-      threads: sourceData.threads
-    }
+  computed: {
+    ...mapState(useStore, {
+      categories: store => store.$state.categories,
+      threads: store => store.$state.threads
+    })
   }
 }
 </script>
@@ -15,7 +14,6 @@ export default {
 <template>
   <h1>Welcome to the Forum</h1>
   <CategoryList :categories="categories" />
-  <ForumList :forums="forums" />
   <ThreadList :threads="threads" />
 </template>
 

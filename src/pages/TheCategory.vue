@@ -1,5 +1,6 @@
 <script>
-import sourceData from '../data.json'
+import { mapState } from 'pinia'
+import { useStore } from '../stores'
 
 export default {
   props: {
@@ -9,8 +10,12 @@ export default {
     }
   },
   computed: {
+    ...mapState(useStore, {
+      categories: store => store.$state.categories
+    }),
+
     category () {
-      return sourceData.categories.find(category => category.id === this.id)
+      return this.categories.find(category => category.id === this.id)
     }
   }
 }
