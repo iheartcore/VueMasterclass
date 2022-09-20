@@ -11,14 +11,13 @@ export default {
   },
   computed: {
     ...mapState(useStore, {
-      forums: store => store.$state.forums,
-      threads: store => store.$state.threads
+      forums: store => store.forums
     }),
     forum () {
       return this.forums.find(forum => forum.id === this.id)
     },
     threads () {
-      return this.threads.filter(thread => thread.forumId === this.id)
+      return useStore().threads.filter(thread => thread.forumId === this.id)
     }
   }
 }

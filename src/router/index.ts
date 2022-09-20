@@ -4,6 +4,7 @@ import ThreadShow from '../pages/ThreadShow.vue'
 import NotFound from '../pages/NotFound.vue'
 import Forum from '../pages/TheForum.vue'
 import Category from '../pages/TheCategory.vue'
+import Profile from '../pages/TheProfile.vue'
 import { useStore } from '../stores'
 
 const routes = [
@@ -12,6 +13,17 @@ const routes = [
     name: 'Home',
     component: Home
   },
+  {
+    path: '/me',
+    name: 'Profile',
+    component: Profile
+  },
+  // {
+  //   path: '/profile/:id',
+  //   name: 'Profile',
+  //   component: Profile,
+  //   props: true
+  // },
   {
     path: '/category/:id',
     name: 'Category',
