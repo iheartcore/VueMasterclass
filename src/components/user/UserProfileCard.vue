@@ -1,21 +1,21 @@
 <script>
-export default {
-  props: {
-    user: {
-      type: Object,
-      required: true
-    }
-  },
-}
+  export default {
+    props: {
+      user: {
+        type: Object,
+        required: true,
+      },
+    },
+  }
 </script>
 
 <template>
   <div class="profile-card">
     <p class="text-center">
       <img
-          :src="user.avatar"
-          :alt="`${user.name}'s profile picture`"
-          class="avatar-xlarge"
+        :src="user.avatar"
+        :alt="`${user.name}'s profile picture`"
+        class="avatar-xlarge"
       />
     </p>
 
@@ -31,7 +31,15 @@ export default {
       <span>{{ user.postsCount }} posts</span>
       <span>{{ user.threadsCount }} threads</span>
     </div>
-    <hr>
-    <p v-if="user.website" class="text-large text-center"><i class="fa fa-globe"></i> <a :href="user.website">{{ user.website }}</a></p>
+    <hr />
+    <p v-if="user.website" class="text-large text-center">
+      <i class="fa fa-globe"></i> <a :href="user.website">{{ user.website }}</a>
+    </p>
+
+    <div class="text-center">
+      <router-link :to="{ name: 'ProfileEdit' }" class="btn-green btn-small">
+        Edit Profile
+      </router-link>
+    </div>
   </div>
 </template>
