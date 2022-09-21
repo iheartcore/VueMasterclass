@@ -1,6 +1,7 @@
 <script>
   import { mapState } from 'pinia'
   import { allStore } from '@/stores'
+  import { findById } from '@/helpers'
 
   export default {
     props: {
@@ -15,7 +16,7 @@
       }),
 
       category() {
-        return this.categories.find((category) => category.id === this.id)
+        return findById(this.categories, this.id)
       },
     },
   }

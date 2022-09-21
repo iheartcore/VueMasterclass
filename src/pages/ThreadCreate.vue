@@ -1,5 +1,6 @@
 <script>
   import { allStore } from '@/stores'
+  import { findById } from '@/helpers'
 
   export default {
     props: {
@@ -10,9 +11,7 @@
     },
     computed: {
       forum() {
-        return allStore
-          .forumStore()
-          .forums.find((forum) => forum.id === this.forumId)
+        return findById(allStore.forumStore().forums, this.forumId)
       },
     },
   }

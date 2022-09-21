@@ -3,6 +3,7 @@ import sourceData from '@/data.json'
 import { useUserStore } from '@/stores/UserStore'
 import { usePostStore } from '@/stores/PostStore'
 import { useForumStore } from '@/stores/ForumStore'
+import { findById, upsert } from '@/helpers'
 
 export const useThreadStore = defineStore('ThreadStore', {
   state: () => {
@@ -12,7 +13,7 @@ export const useThreadStore = defineStore('ThreadStore', {
   },
   actions: {
     appendPostToThread({ postId, threadId }: { postId: any; threadId: any }) {
-      const thread = this.threads.find((thread) => thread.id === threadId)
+      const thread = findById(this.threads, threadId)
       thread.posts = thread?.posts || []
       thread?.posts.push(postId)
     },
@@ -29,7 +30,7 @@ export const useThreadStore = defineStore('ThreadStore', {
         threadId: thread.id,
       }
 
-      this.setThread(thread)
+      this.setThread({ thread })
       useUserStore().appendThreadToUser({
         threadId: thread.id,
         userId: thread.userId,
@@ -40,21 +41,14 @@ export const useThreadStore = defineStore('ThreadStore', {
       })
       usePostStore().createPost({ post: post })
 
-      return this.threads.find((t) => t.id === thread.id)
+      return findById(this.threads, thread.id)
     },
     setThread({ thread }: { thread: any }) {
-      const threadIndex = this.threads.findIndex((t) => t.id === thread.id)
-      if (thread.id && threadIndex !== -1) {
-        this.threads[threadIndex] = thread
-      } else {
-        this.threads.push(thread)
-      }
+      upsert(this.threads, thread)
     },
     async updateThread({ thread }: { thread: any }) {
-      const threadObj = this.threads.find((t) => t.id === thread.id)
-      const post = usePostStore().posts.find(
-        (post) => post.id === threadObj?.posts[0]
-      )
+      const threadObj = findById(this.threads, thread.id)
+      const post = findById(usePostStore().posts, threadObj?.posts[0])
       const newThread = { ...threadObj, title: thread.title }
       const newPost = { ...post, text: thread.text }
       delete thread.text

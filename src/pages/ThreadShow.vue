@@ -1,6 +1,7 @@
 <script>
   import { mapState } from 'pinia'
   import { allStore } from '@/stores'
+  import { findById } from '@/helpers'
 
   export default {
     props: {
@@ -17,7 +18,7 @@
         posts: (store) => store.posts,
       }),
       thread() {
-        return this.threads.find((thread) => thread.id === this.id)
+        return findById(this.threads, this.id)
       },
       threadPosts() {
         return this.posts.filter((post) => post.threadId === this.id)

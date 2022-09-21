@@ -1,5 +1,6 @@
 <script>
   import { allStore } from '@/stores'
+  import { findById } from '@/helpers'
 
   export default {
     props: {
@@ -10,13 +11,8 @@
     },
     computed: {
       thread() {
-        const thread = allStore
-          .threadStore()
-          .threads.find((thread) => thread.id === this.id)
-
-        thread.text = allStore
-          .postStore()
-          .posts.find((post) => post.id === thread.posts[0]).text
+        const thread = findById(allStore.threadStore().threads, this.id)
+        thread.text = findById(allStore.postStore().posts, thread.posts[0]).text
 
         return thread
       },

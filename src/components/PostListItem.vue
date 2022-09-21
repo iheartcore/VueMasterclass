@@ -1,6 +1,7 @@
 <script>
   import { mapState } from 'pinia'
   import { allStore } from '@/stores'
+  import { findById } from '@/helpers'
 
   export default {
     props: {
@@ -16,7 +17,7 @@
     },
     methods: {
       userById(userId) {
-        return this.users.find((u) => u.id === userId)
+        return findById(this.users, userId)
       },
     },
   }

@@ -25,7 +25,7 @@
     methods: {
       async save() {
         let thread = null
-        if (this.thread.id) {
+        if (this.thread?.id) {
           thread = await allStore
             .threadStore()
             .updateThread({ thread: this.formData })

@@ -1,6 +1,7 @@
 <script>
   import { mapState } from 'pinia'
   import { allStore } from '@/stores'
+  import { findById } from '@/helpers'
 
   export default {
     props: {
@@ -14,7 +15,7 @@
         forums: (store) => store.forums,
       }),
       forum() {
-        return this.forums.find((forum) => forum.id === this.id)
+        return findById(this.forums, this.id)
       },
       threads() {
         return allStore

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import sourceData from '@/data.json'
 import { usePostStore } from '@/stores/PostStore'
 import { useThreadStore } from '@/stores/ThreadStore'
+import { findById } from '@/helpers'
 
 export const useUserStore = defineStore('userStore', {
   state: () => {
@@ -12,7 +13,7 @@ export const useUserStore = defineStore('userStore', {
   },
   getters: {
     authUser(state) {
-      const user = state.users.find((user) => user.id === state.authId)
+      const user = findById(state.users, state.authId)
 
       if (!user) return null
 
@@ -45,7 +46,7 @@ export const useUserStore = defineStore('userStore', {
       this.users[userIndex] = activeUser
     },
     appendThreadToUser({ threadId, userId }: { threadId: any; userId: any }) {
-      const user = this.users.find((user) => user.id === userId)
+      const user = findById(this.users, userId)
       user.threads = user?.threads || []
       user?.threads.push(threadId)
     },
