@@ -3,6 +3,7 @@ import Profile from '@/pages/TheProfile.vue'
 import Category from '@/pages/TheCategory.vue'
 import Forum from '@/pages/TheForum.vue'
 import ThreadShow from '@/pages/ThreadShow.vue'
+import ThreadCreate from '@/pages/ThreadCreate.vue'
 import { useThreadStore } from '@/stores/ThreadStore'
 import NotFound from '@/pages/NotFound.vue'
 
@@ -43,6 +44,11 @@ const routes = [
     name: 'Forum',
     component: Forum,
     props: true,
+  },
+  {
+    path: 'thread/create/',
+    name: 'ThreadCreate',
+    component: ThreadCreate,
   },
   {
     path: '/thread/:id',

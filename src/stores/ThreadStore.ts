@@ -12,5 +12,8 @@ export const useThreadStore = defineStore('ThreadStore', {
       const thread = this.threads.find((thread) => thread.id === threadId)
       thread?.posts.push(postId)
     },
+    createThread({ thread }: { thread: any }) {
+      this.threads.push(thread)
+    },
   },
 })
