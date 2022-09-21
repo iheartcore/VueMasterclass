@@ -4,6 +4,7 @@ import Category from '@/pages/TheCategory.vue'
 import Forum from '@/pages/TheForum.vue'
 import ThreadShow from '@/pages/ThreadShow.vue'
 import ThreadCreate from '@/pages/ThreadCreate.vue'
+import ThreadEdit from '@/pages/ThreadEdit.vue'
 import { useThreadStore } from '@/stores/ThreadStore'
 import NotFound from '@/pages/NotFound.vue'
 
@@ -69,9 +70,15 @@ const routes = [
     },
   },
   {
-    path: '/form/:forumId/thread/create/',
+    path: '/forum/:forumId/thread/create/',
     name: 'ThreadCreate',
     component: ThreadCreate,
+    props: true,
+  },
+  {
+    path: '/thread/:id/edit/',
+    name: 'ThreadEdit',
+    component: ThreadEdit,
     props: true,
   },
   {

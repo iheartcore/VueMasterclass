@@ -17,19 +17,19 @@ export const useThreadStore = defineStore('ThreadStore', {
       thread?.posts.push(postId)
     },
     async createThread({ thread, forumId }: { thread: any; forumId: any }) {
-      const postText = thread.content
+      const postText = thread.text
       thread.id = 'safsadfa' + Math.random()
       thread.forumId = forumId
       thread.userId = useUserStore().authId
       thread.publishedAt = Math.floor(Date.now() / 1000)
-      delete thread.content
+      delete thread.text
 
       const post = {
         text: postText,
         threadId: thread.id,
       }
 
-      this.threads.push(thread)
+      this.setThread(thread)
       useUserStore().appendThreadToUser({
         threadId: thread.id,
         userId: thread.userId,
@@ -41,6 +41,28 @@ export const useThreadStore = defineStore('ThreadStore', {
       usePostStore().createPost({ post: post })
 
       return this.threads.find((t) => t.id === thread.id)
+    },
+    setThread({ thread }: { thread: any }) {
+      const threadIndex = this.threads.findIndex((t) => t.id === thread.id)
+      if (thread.id && threadIndex !== -1) {
+        this.threads[threadIndex] = thread
+      } else {
+        this.threads.push(thread)
+      }
+    },
+    async updateThread({ thread }: { thread: any }) {
+      const threadObj = this.threads.find((t) => t.id === thread.id)
+      const post = usePostStore().posts.find(
+        (post) => post.id === threadObj?.posts[0]
+      )
+      const newThread = { ...threadObj, title: thread.title }
+      const newPost = { ...post, text: thread.text }
+      delete thread.text
+
+      this.setThread({ thread: newThread })
+      usePostStore().setPost({ post: newPost })
+
+      return thread
     },
   },
 })

@@ -7,19 +7,37 @@
         type: String,
         required: true,
       },
+      thread: {
+        type: Object,
+        default: null,
+      },
     },
     data() {
       return {
-        thread: {},
+        formData: { ...this.thread },
       }
     },
     methods: {
       async save() {
-        const thread = await allStore
-          .threadStore()
-          .createThread({ thread: this.thread, forumId: this.forumId })
-
-        this.$router.push({ name: 'ThreadShow', params: { id: thread.id } })
+        let thread = null
+        if (this.thread.id) {
+          thread = await allStore
+            .threadStore()
+            .updateThread({ thread: this.formData })
+          this.$router.push({
+            name: 'ThreadShow',
+            params: { id: thread?.id },
+          })
+        } else {
+          thread = await allStore.threadStore().createThread({
+            thread: this.formData,
+            forumId: this.forumId,
+          })
+          this.$router.push({
+            name: 'ThreadShow',
+            params: { id: thread?.id },
+          })
+        }
       },
       cancel() {
         this.$router.push({ name: 'Forum', params: { id: this.forumId } })
@@ -34,7 +52,7 @@
       <label for="thread_title">Title:</label>
       <input
         id="thread_title"
-        v-model="thread.title"
+        v-model="formData.title"
         type="text"
         class="form-input"
         name="title"
@@ -45,7 +63,7 @@
       <label for="thread_content">Content:</label>
       <textarea
         id="thread_content"
-        v-model="thread.content"
+        v-model="formData.text"
         class="form-input"
         name="content"
         rows="8"
