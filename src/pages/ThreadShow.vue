@@ -39,6 +39,12 @@
 <template>
   <div v-if="thread" class="col-large push-top">
     <h1>{{ thread.title }}</h1>
+    <router-link
+      :to="{ name: 'ThreadEdit', params: { id: id } }"
+      class="btn-green btn-small"
+    >
+      Edit Thread
+    </router-link>
     <PostList :posts="threadPosts" />
     <PostEditor @save="addPost" />
   </div>

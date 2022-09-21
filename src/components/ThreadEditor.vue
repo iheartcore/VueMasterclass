@@ -17,6 +17,11 @@
         formData: { ...this.thread },
       }
     },
+    computed: {
+      existing() {
+        return !!this.formData.title
+      },
+    },
     methods: {
       async save() {
         let thread = null
@@ -40,7 +45,17 @@
         }
       },
       cancel() {
-        this.$router.push({ name: 'Forum', params: { id: this.forumId } })
+        if (this.thread?.id) {
+          this.$router.push({
+            name: 'ThreadShow',
+            params: { id: this.thread?.id },
+          })
+        } else {
+          this.$router.push({
+            name: 'Forum',
+            params: { id: this.forumId },
+          })
+        }
       },
     },
   }
@@ -73,7 +88,9 @@
 
     <div class="btn-group">
       <button class="btn btn-ghost" @click.prevent="cancel">Cancel</button>
-      <button class="btn btn-blue" type="submit" name="Publish">Publish</button>
+      <button class="btn btn-blue" type="submit" name="Publish">
+        {{ existing ? 'Update' : 'Publish' }}
+      </button>
     </div>
   </form>
 </template>
