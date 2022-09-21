@@ -3,7 +3,7 @@ import Profile from '@/pages/TheProfile.vue'
 import Category from '@/pages/TheCategory.vue'
 import Forum from '@/pages/TheForum.vue'
 import ThreadShow from '@/pages/ThreadShow.vue'
-import { useStore } from '@/stores'
+import { useThreadStore } from '@/stores/ThreadStore'
 import NotFound from '@/pages/NotFound.vue'
 
 const routes = [
@@ -51,7 +51,7 @@ const routes = [
     props: true,
     beforeEnter(to, from, next) {
       // check if thread exists
-      const threadExists = useStore().$state.threads.find(
+      const threadExists = useThreadStore().threads.find(
         (thread) => thread.id === to.params.id
       )
       if (threadExists) {

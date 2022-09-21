@@ -1,6 +1,7 @@
 <script>
   import { mapState } from 'pinia'
-  import { useStore } from '@/stores'
+  import { useForumStore } from '@/stores/ForumStore'
+  import { useThreadStore } from '@/stores/ThreadStore'
 
   export default {
     props: {
@@ -10,14 +11,16 @@
       },
     },
     computed: {
-      ...mapState(useStore, {
+      ...mapState(useForumStore, {
         forums: (store) => store.forums,
       }),
       forum() {
         return this.forums.find((forum) => forum.id === this.id)
       },
       threads() {
-        return useStore().threads.filter((thread) => thread.forumId === this.id)
+        return useThreadStore().threads.filter(
+          (thread) => thread.forumId === this.id
+        )
       },
     },
   }

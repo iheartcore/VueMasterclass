@@ -1,6 +1,6 @@
 <script>
   import { mapState } from 'pinia'
-  import { useStore } from '@/stores'
+  import { useForumStore } from '@/stores/ForumStore'
 
   export default {
     props: {
@@ -10,7 +10,7 @@
       },
     },
     computed: {
-      ...mapState(useStore, {
+      ...mapState(useForumStore, {
         forums: (store) => store.$state.forums,
       }),
     },
