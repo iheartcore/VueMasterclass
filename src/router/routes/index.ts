@@ -46,11 +46,6 @@ const routes = [
     props: true,
   },
   {
-    path: 'thread/create/',
-    name: 'ThreadCreate',
-    component: ThreadCreate,
-  },
-  {
     path: '/thread/:id',
     name: 'ThreadShow',
     component: ThreadShow,
@@ -72,6 +67,12 @@ const routes = [
         })
       }
     },
+  },
+  {
+    path: '/form/:forumId/thread/create/',
+    name: 'ThreadCreate',
+    component: ThreadCreate,
+    props: true,
   },
   {
     path: '/:pathMatch(.*)*',

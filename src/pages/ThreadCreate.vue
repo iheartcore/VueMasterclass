@@ -3,8 +3,8 @@
 
   export default {
     props: {
-      forum: {
-        type: Object,
+      forumId: {
+        type: String,
         required: true,
       },
     },
@@ -12,6 +12,13 @@
       return {
         thread: {},
       }
+    },
+    computed: {
+      forum() {
+        return allStore
+          .forumStore()
+          .forums.find((forum) => forum.id === this.forumId)
+      },
     },
     methods: {
       save() {
@@ -33,7 +40,7 @@
         <label for="thread_title">Title:</label>
         <input
           id="thread_title"
-          v-model="thread.text"
+          v-model="thread.title"
           type="text"
           class="form-input"
           name="title"

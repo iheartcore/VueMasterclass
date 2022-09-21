@@ -17,17 +17,18 @@ export const useThreadStore = defineStore('ThreadStore', {
       thread?.posts.push(postId)
     },
     createThread({ thread, forumId }: { thread: any; forumId: any }) {
-      const postText = thread.text
-      delete thread.text
+      const postText = thread.content
       thread.id = 'safsadfa' + Math.random()
       thread.forumId = forumId
       thread.userId = useUserStore().authId
       thread.publishedAt = Math.floor(Date.now() / 1000)
+      delete thread.content
 
       const post = {
         text: postText,
         threadId: thread.id,
       }
+      console.log(thread)
 
       this.threads.push(thread)
       useUserStore().appendThreadToUser({
