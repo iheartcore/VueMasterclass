@@ -1,0 +1,13 @@
+import { useThreadStore } from '@/stores/ThreadStore'
+import { usePostStore } from '@/stores/PostStore'
+import { useForumStore } from '@/stores/ForumStore'
+import { useCategoryStore } from '@/stores/CategoryStore'
+import { useUserStore } from '@/stores/UserStore'
+
+export const allStore = {
+  threadStore: useThreadStore,
+  postStore: usePostStore,
+  forumStore: useForumStore,
+  categoryStore: useCategoryStore,
+  userStore: useUserStore,
+}

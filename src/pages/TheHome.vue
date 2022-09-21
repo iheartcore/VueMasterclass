@@ -1,13 +1,13 @@
 <script>
   import { mapState } from 'pinia'
-  import { useCategoryStore } from '@/stores/CategoryStore'
-  import { useThreadStore } from '@/stores/ThreadStore'
+  import { allStore } from '@/stores'
+
   export default {
     computed: {
-      ...mapState(useCategoryStore, {
+      ...mapState(allStore.categoryStore, {
         categories: (store) => store.categories,
       }),
-      ...mapState(useThreadStore, {
+      ...mapState(allStore.threadStore, {
         threads: (store) => store.threads,
       }),
     },

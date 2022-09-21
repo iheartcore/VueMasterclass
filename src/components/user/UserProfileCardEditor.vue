@@ -1,5 +1,5 @@
 <script>
-  import { useUserStore } from '@/stores/UserStore'
+  import { allStore } from '@/stores'
 
   export default {
     props: {
@@ -15,7 +15,7 @@
     },
     methods: {
       save() {
-        useUserStore().saveUser({
+        allStore.userStore().saveUser({
           activeUser: { ...this.activeUser },
         })
 

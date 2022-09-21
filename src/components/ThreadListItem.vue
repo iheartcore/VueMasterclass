@@ -1,6 +1,6 @@
 <script>
   import { mapState } from 'pinia'
-  import { useUserStore } from '@/stores/UserStore'
+  import { allStore } from '@/stores'
 
   export default {
     props: {
@@ -10,7 +10,7 @@
       },
     },
     computed: {
-      ...mapState(useUserStore, {
+      ...mapState(allStore.userStore, {
         users: (store) => store.$state.users,
       }),
     },

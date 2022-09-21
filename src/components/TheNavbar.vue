@@ -1,10 +1,10 @@
 <script>
-  import { useUserStore } from '@/stores/UserStore'
+  import { allStore } from '@/stores'
   import { mapState } from 'pinia'
 
   export default {
     computed: {
-      ...mapState(useUserStore, {
+      ...mapState(allStore.userStore, {
         authUser: (store) => store.authUser,
       }),
     },

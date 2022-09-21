@@ -1,7 +1,6 @@
 <script>
   import { mapState } from 'pinia'
-  import { useThreadStore } from '@/stores/ThreadStore'
-  import { usePostStore } from '@/stores/PostStore'
+  import { allStore } from '@/stores'
 
   export default {
     props: {
@@ -11,10 +10,10 @@
       },
     },
     computed: {
-      ...mapState(useThreadStore, {
+      ...mapState(allStore.threadStore, {
         threads: (store) => store.threads,
       }),
-      ...mapState(usePostStore, {
+      ...mapState(allStore.postStore, {
         posts: (store) => store.posts,
       }),
       thread() {
@@ -31,7 +30,7 @@
           threadId: this.id,
         }
 
-        usePostStore().createPost({ post: post })
+        allStore.postStore().createPost({ post: post })
       },
     },
   }
