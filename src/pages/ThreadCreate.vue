@@ -21,10 +21,15 @@
       },
     },
     methods: {
-      save() {
-        allStore
+      async save() {
+        const thread = await allStore
           .threadStore()
           .createThread({ thread: this.thread, forumId: this.forum.id })
+
+        this.$router.push({ name: 'ThreadShow', params: { id: thread.id } })
+      },
+      cancel() {
+        this.$router.push({ name: 'Forum', params: { id: this.forum.id } })
       },
     },
   }
@@ -60,7 +65,7 @@
       </div>
 
       <div class="btn-group">
-        <button class="btn btn-ghost">Cancel</button>
+        <button class="btn btn-ghost" @click="cancel">Cancel</button>
         <button class="btn btn-blue" type="submit" name="Publish">
           Publish
         </button>

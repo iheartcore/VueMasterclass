@@ -16,7 +16,7 @@ export const useThreadStore = defineStore('ThreadStore', {
       thread.posts = thread?.posts || []
       thread?.posts.push(postId)
     },
-    createThread({ thread, forumId }: { thread: any; forumId: any }) {
+    async createThread({ thread, forumId }: { thread: any; forumId: any }) {
       const postText = thread.content
       thread.id = 'safsadfa' + Math.random()
       thread.forumId = forumId
@@ -28,7 +28,6 @@ export const useThreadStore = defineStore('ThreadStore', {
         text: postText,
         threadId: thread.id,
       }
-      console.log(thread)
 
       this.threads.push(thread)
       useUserStore().appendThreadToUser({
@@ -40,6 +39,8 @@ export const useThreadStore = defineStore('ThreadStore', {
         forumId: forumId,
       })
       usePostStore().createPost({ post: post })
+
+      return this.threads.find((t) => t.id === thread.id)
     },
   },
 })
