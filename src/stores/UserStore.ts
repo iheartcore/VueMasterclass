@@ -44,5 +44,10 @@ export const useUserStore = defineStore('userStore', {
       )
       this.users[userIndex] = activeUser
     },
+    appendThreadToUser({ threadId, userId }: { threadId: any; userId: any }) {
+      const user = this.users.find((user) => user.id === userId)
+      user.threads = user?.threads || []
+      user?.threads.push(threadId)
+    },
   },
 })

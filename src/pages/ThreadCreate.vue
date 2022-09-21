@@ -15,7 +15,9 @@
     },
     methods: {
       save() {
-        allStore.threadStore().createThread(this.thread)
+        allStore
+          .threadStore()
+          .createThread({ thread: this.thread, forumId: this.forum.id })
       },
     },
   }
