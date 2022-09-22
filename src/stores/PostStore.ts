@@ -20,6 +20,10 @@ export const usePostStore = defineStore('PostStore', {
         postId: post.id,
         threadId: post.threadId,
       })
+      useThreadStore().appendContributorToThread({
+        userId: post.userId,
+        threadId: post.threadId,
+      })
     },
     setPost({ post }: { post: any }) {
       upsert(this.posts, post)

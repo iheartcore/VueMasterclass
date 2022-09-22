@@ -11,3 +11,9 @@ export const upsert = (resources, newResource) => {
     resources.push(newResource)
   }
 }
+
+export const addIfNotExists = (resource, id) => {
+  if (!resource.includes(id)) {
+    resource.push(id)
+  }
+}

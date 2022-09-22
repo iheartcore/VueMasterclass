@@ -3,7 +3,7 @@ import sourceData from '@/data.json'
 import { useUserStore } from '@/stores/UserStore'
 import { usePostStore } from '@/stores/PostStore'
 import { useForumStore } from '@/stores/ForumStore'
-import { findById, upsert } from '@/helpers'
+import { addIfNotExists, findById, upsert } from '@/helpers'
 
 export const useThreadStore = defineStore('ThreadStore', {
   state: () => {
@@ -12,10 +12,27 @@ export const useThreadStore = defineStore('ThreadStore', {
     }
   },
   actions: {
-    appendPostToThread({ postId, threadId }: { postId: any; threadId: any }) {
+    appendPostToThread({
+      postId,
+      threadId,
+    }: {
+      postId: string
+      threadId: string
+    }) {
       const thread = findById(this.threads, threadId)
       thread.posts = thread?.posts || []
-      thread?.posts.push(postId)
+      addIfNotExists(thread.posts, postId)
+    },
+    appendContributorToThread({
+      userId,
+      threadId,
+    }: {
+      userId: string
+      threadId: string
+    }) {
+      const thread = findById(this.threads, threadId)
+      thread.contributors = thread?.contributors || []
+      addIfNotExists(thread.contributors, userId)
     },
     async createThread({ thread, forumId }: { thread: any; forumId: any }) {
       const postText = thread.text

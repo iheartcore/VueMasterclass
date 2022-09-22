@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import sourceData from '@/data.json'
-import { findById } from '@/helpers'
+import { addIfNotExists, findById } from '@/helpers'
 
 export const useForumStore = defineStore('forumStore', {
   state: () => {
@@ -18,7 +18,7 @@ export const useForumStore = defineStore('forumStore', {
     }) {
       const forum = findById(this.forums, forumId)
       forum.threads = forum?.threads || []
-      forum?.threads.push(threadId)
+      addIfNotExists(forum.threads, threadId)
     },
   },
 })
