@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import sourceData from '@/data.json'
 import { useThreadStore } from '@/stores/ThreadStore'
 import { useUserStore } from '@/stores/UserStore'
-import { upsert } from '@/helpers'
+import { findById, upsert } from '@/helpers'
 
 export const usePostStore = defineStore('PostStore', {
   state: () => {

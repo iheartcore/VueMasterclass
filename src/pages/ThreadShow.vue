@@ -24,17 +24,16 @@
         return this.posts.filter((post) => post.threadId === this.id)
       },
       threadPostsCount() {
-        return this.threadPosts.length > 1
-          ? this.threadPosts.length + ' replies'
-          : this.threadPosts.length + ' reply'
+        const count = this.threadPosts.length - 1
+        return count > 1 ? count + ' replies' : count + ' reply'
       },
       threadContributorsCount() {
         if (!this.thread.contributors) {
           return 'no contributors'
         }
-        return this.thread.contributors?.length > 1
-          ? this.thread.contributors?.length + ' contributors'
-          : this.thread.contributors?.length + ' contributor'
+
+        const count = this.thread.contributors.length
+        return count > 1 ? count + ' contributors' : count + ' contributor'
       },
       user() {
         return allStore.userStore().getUserById(this.thread.userId)

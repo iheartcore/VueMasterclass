@@ -19,6 +19,13 @@
       userById(userId) {
         return findById(this.users, userId)
       },
+      countOfPosts(userId) {
+        const count = allStore
+          .postStore()
+          .posts.filter((post) => post.userId == userId).length
+
+        return count === 1 ? count + ' post' : count + ' posts'
+      },
     },
   }
 </script>
@@ -30,7 +37,7 @@
       <a href="#">
         <img class="avatar-large" :src="userById(post.userId).avatar" alt="" />
       </a>
-      <p class="desktop-only text-small">107 posts</p>
+      <p class="desktop-only text-small">{{ countOfPosts(post.userId) }}</p>
     </div>
 
     <div class="post-content">
