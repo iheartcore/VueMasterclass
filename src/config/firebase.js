@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   apiKey: 'AIzaSyDGi0p_kpbhOQ4Vc-9a2_rqIpihBEmSPlA',
   authDomain: 'vueschoolmasterclass-461e7.firebaseapp.com',
   projectId: 'vueschoolmasterclass-461e7',
