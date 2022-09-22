@@ -26,6 +26,13 @@
 
         return count === 1 ? count + ' post' : count + ' posts'
       },
+      countOfThreads(userId) {
+        const count = allStore
+          .threadStore()
+          .threads.filter((thread) => thread.userId == userId).length
+
+        return count === 1 ? count + ' thread' : count + ' threads'
+      },
     },
   }
 </script>
@@ -38,6 +45,7 @@
         <img class="avatar-large" :src="userById(post.userId).avatar" alt="" />
       </a>
       <p class="desktop-only text-small">{{ countOfPosts(post.userId) }}</p>
+      <p class="desktop-only text-small">{{ countOfThreads(post.userId) }}</p>
     </div>
 
     <div class="post-content">
