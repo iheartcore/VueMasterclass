@@ -1,19 +1,18 @@
 import { defineStore } from 'pinia'
-import sourceData from '@/data.json'
 import { usePostStore } from '@/stores/PostStore'
 import { useThreadStore } from '@/stores/ThreadStore'
-import { findById, addIfNotExists } from '@/helpers'
+import { findById, addIfNotExists, upsert } from '@/helpers'
 
 export const useUserStore = defineStore('userStore', {
   state: () => {
     return {
-      users: sourceData.users,
+      users: [],
       authId: 'VXjpr2WHa8Ux4Bnggym8QFLdv5C3',
     }
   },
   getters: {
     authUser(state) {
-      const user = findById(state.users, state.authId)
+      const user = findById({ resources: state.users, id: state.authId })
 
       if (!user) return null
 
@@ -38,18 +37,19 @@ export const useUserStore = defineStore('userStore', {
       }
     },
     getUserById: (state) => {
-      return (userId: { userId: string }) => findById(state.users, userId)
+      return (userId: { userId: string }) =>
+        findById({ resources: state.users, id: userId })
     },
   },
   actions: {
     saveUser({ activeUser }: { activeUser: any }) {
-      const userIndex = this.users.findIndex(
-        (user) => user.id === activeUser.id
-      )
-      this.users[userIndex] = activeUser
+      upsert({ resources: this.users, newResource: activeUser })
+    },
+    setUser({ user }: { user: any }) {
+      upsert({ resources: this.users, newResource: user })
     },
     appendThreadToUser({ threadId, userId }: { threadId: any; userId: any }) {
-      const user = findById(this.users, userId)
+      const user = findById({ resources: this.users, id: userId })
       user.threads = user?.threads || []
       addIfNotExists(user.threads, threadId)
     },

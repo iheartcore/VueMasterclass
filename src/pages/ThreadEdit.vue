@@ -11,8 +11,14 @@
     },
     computed: {
       thread() {
-        const thread = findById(allStore.threadStore().threads, this.id)
-        thread.text = findById(allStore.postStore().posts, thread.posts[0]).text
+        const thread = findById({
+          resources: allStore.threadStore().threads,
+          id: this.id,
+        })
+        thread.text = findById({
+          resources: allStore.postStore().posts,
+          id: thread.posts[0],
+        }).text
 
         return thread
       },

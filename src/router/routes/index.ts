@@ -5,9 +5,7 @@ import Forum from '@/pages/TheForum.vue'
 import ThreadShow from '@/pages/ThreadShow.vue'
 import ThreadCreate from '@/pages/ThreadCreate.vue'
 import ThreadEdit from '@/pages/ThreadEdit.vue'
-import { useThreadStore } from '@/stores/ThreadStore'
 import NotFound from '@/pages/NotFound.vue'
-import { findById } from '@/helpers'
 
 const routes = [
   {
@@ -52,21 +50,6 @@ const routes = [
     name: 'ThreadShow',
     component: ThreadShow,
     props: true,
-    beforeEnter(to, from, next) {
-      // check if thread exists
-      const threadExists = findById(useThreadStore().threads, to.params.id)
-      if (threadExists) {
-        return next()
-      } else {
-        next({
-          name: 'NotFound',
-          params: { pathMatch: to.path.substring(1).split('/') },
-          // preserve existing query and hash
-          query: to.query,
-          hash: to.hash,
-        })
-      }
-    },
   },
   {
     path: '/forum/:forumId/thread/create/',

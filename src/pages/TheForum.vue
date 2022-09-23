@@ -15,7 +15,7 @@
         forums: (store) => store.forums,
       }),
       forum() {
-        return findById(this.forums, this.id)
+        return findById({ resources: this.forums, id: this.id })
       },
       threads() {
         return allStore

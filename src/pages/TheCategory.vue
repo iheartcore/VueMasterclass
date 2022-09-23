@@ -16,7 +16,10 @@
       }),
 
       category() {
-        return findById(this.categories, this.id)
+        return findById({
+          resources: this.categories,
+          id: this.id,
+        })
       },
     },
   }

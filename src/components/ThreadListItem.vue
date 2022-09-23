@@ -20,7 +20,10 @@
         return count === 1 ? count + ' reply' : count + ' replies'
       },
       userById(userId) {
-        return findById(this.users, userId)
+        return findById({
+          resources: this.users,
+          id: userId,
+        })
       },
     },
   }

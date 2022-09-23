@@ -11,7 +11,10 @@
     },
     computed: {
       forum() {
-        return findById(allStore.forumStore().forums, this.forumId)
+        return findById({
+          resources: allStore.forumStore().forums,
+          id: this.forumId,
+        })
       },
     },
   }

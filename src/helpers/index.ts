@@ -1,7 +1,17 @@
-export const findById = (resources, id) =>
-  resources.find((resource) => resource.id === id)
+export const findById = ({ resources, id }: { resources: any; id: string }) => {
+  if (!resources) {
+    return null
+  }
+  return resources.find((resource) => resource.id === id)
+}
 
-export const upsert = (resources, newResource) => {
+export const upsert = ({
+  resources,
+  newResource,
+}: {
+  resources: Array<any>
+  newResource: any
+}) => {
   const index = resources.findIndex(
     (resource) => resource.id === newResource.id
   )

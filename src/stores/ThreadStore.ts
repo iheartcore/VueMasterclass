@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import sourceData from '@/data.json'
 import { useUserStore } from '@/stores/UserStore'
 import { usePostStore } from '@/stores/PostStore'
 import { useForumStore } from '@/stores/ForumStore'
@@ -8,7 +7,7 @@ import { addIfNotExists, findById, upsert } from '@/helpers'
 export const useThreadStore = defineStore('ThreadStore', {
   state: () => {
     return {
-      threads: sourceData.threads,
+      threads: [],
     }
   },
   actions: {
@@ -19,7 +18,7 @@ export const useThreadStore = defineStore('ThreadStore', {
       postId: string
       threadId: string
     }) {
-      const thread = findById(this.threads, threadId)
+      const thread = findById({ resources: this.threads, id: threadId })
       thread.posts = thread?.posts || []
       addIfNotExists(thread.posts, postId)
     },
@@ -30,7 +29,7 @@ export const useThreadStore = defineStore('ThreadStore', {
       userId: string
       threadId: string
     }) {
-      const thread = findById(this.threads, threadId)
+      const thread = findById({ resources: this.threads, id: threadId })
       thread.contributors = thread?.contributors || []
       addIfNotExists(thread.contributors, userId)
     },
@@ -58,14 +57,18 @@ export const useThreadStore = defineStore('ThreadStore', {
       })
       usePostStore().createPost({ post: post })
 
-      return findById(this.threads, thread.id)
+      return findById({ resources: this.threads, id: thread.id })
     },
     setThread({ thread }: { thread: any }) {
-      upsert(this.threads, thread)
+      console.log(this.threads, thread)
+      upsert({ resources: this.threads, newResource: thread })
     },
     async updateThread({ thread }: { thread: any }) {
-      const threadObj = findById(this.threads, thread.id)
-      const post = findById(usePostStore().posts, threadObj?.posts[0])
+      const threadObj = findById({ resources: this.threads, id: thread.id })
+      const post = findById({
+        resources: usePostStore().posts,
+        id: threadObj?.posts[0],
+      })
       const newThread = { ...threadObj, title: thread.title }
       const newPost = { ...post, text: thread.text }
       delete thread.text

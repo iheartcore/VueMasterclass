@@ -2,6 +2,8 @@
   import { mapState } from 'pinia'
   import { allStore } from '@/stores'
   import { findById } from '@/helpers'
+  import firebase from 'firebase/app'
+  import 'firebase/firestore'
 
   export default {
     props: {
@@ -18,7 +20,7 @@
         posts: (store) => store.posts,
       }),
       thread() {
-        return findById(this.threads, this.id)
+        return findById({ resources: this.threads, id: this.id })
       },
       threadPosts() {
         return this.posts.filter((post) => post.threadId === this.id)
@@ -38,6 +40,60 @@
       user() {
         return allStore.userStore().getUserById(this.thread.userId)
       },
+    },
+    created() {
+      // fetch the thread
+      firebase
+        .firestore()
+        .collection('threads')
+        .doc(this.id)
+        .onSnapshot((doc) => {
+          const thread = {
+            ...doc.data(),
+            id: doc.id,
+          }
+          allStore.threadStore().setThread({ thread })
+
+          // fetch the user
+          firebase
+            .firestore()
+            .collection('users')
+            .doc(thread.userId)
+            .onSnapshot((doc) => {
+              const user = {
+                ...doc.data(),
+                id: doc.id,
+              }
+              allStore.userStore().setUser({ user })
+            })
+
+          // fetch the posts
+          thread.posts.forEach((postId) => {
+            firebase
+              .firestore()
+              .collection('posts')
+              .doc(postId)
+              .onSnapshot((doc) => {
+                const post = {
+                  ...doc.data(),
+                  id: doc.id,
+                }
+                allStore.postStore().setPost({ post })
+                // fetch the user for each post
+                firebase
+                  .firestore()
+                  .collection('users')
+                  .doc(post.userId)
+                  .onSnapshot((doc) => {
+                    const user = {
+                      ...doc.data(),
+                      id: doc.id,
+                    }
+                    allStore.userStore().setUser({ user })
+                  })
+              })
+          })
+        })
     },
     methods: {
       addPost(eventData) {
@@ -64,7 +120,7 @@
     <p>
       By
       <router-link :to="{ name: 'Profile' }" class="link-unstyled">{{
-        user.name
+        user?.name
       }}</router-link
       >,
       <AppDate :date="thread.publishedAt" />

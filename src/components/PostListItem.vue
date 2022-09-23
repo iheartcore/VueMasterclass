@@ -17,7 +17,7 @@
     },
     methods: {
       userById(userId) {
-        return findById(this.users, userId)
+        return findById({ resources: this.users, id: userId })
       },
       countOfPosts(userId) {
         const count = allStore
@@ -39,7 +39,7 @@
 
 <template>
   <div class="post">
-    <div class="user-info">
+    <div v-if="userById(post.userId)" class="user-info">
       <a href="#" class="user-name">{{ userById(post.userId).name }}</a>
       <a href="#">
         <img class="avatar-large" :src="userById(post.userId).avatar" alt="" />

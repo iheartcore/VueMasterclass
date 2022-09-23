@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import sourceData from '@/data.json'
 import { useThreadStore } from '@/stores/ThreadStore'
 import { useUserStore } from '@/stores/UserStore'
 import { findById, upsert } from '@/helpers'
@@ -7,7 +6,7 @@ import { findById, upsert } from '@/helpers'
 export const usePostStore = defineStore('PostStore', {
   state: () => {
     return {
-      posts: sourceData.posts,
+      posts: [],
     }
   },
   actions: {
@@ -26,7 +25,7 @@ export const usePostStore = defineStore('PostStore', {
       })
     },
     setPost({ post }: { post: any }) {
-      upsert(this.posts, post)
+      upsert({ resources: this.posts, newResource: post })
     },
   },
 })
