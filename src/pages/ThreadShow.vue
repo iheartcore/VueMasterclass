@@ -46,13 +46,10 @@
       // fetch the user
       allStore.userStore().fetchUser({ id: thread.userId })
 
-      // fetch the posts
-      thread.posts.forEach(async (postId) => {
-        const post = await allStore.postStore().fetchPost({ id: postId })
-
-        // fetch the user for each post
-        allStore.userStore().fetchUser({ id: post.userId })
-      })
+      // fetch the posts and users
+      const posts = await allStore.postStore().fetchPosts({ ids: thread.posts })
+      const users = posts.map((post) => post.userId)
+      allStore.userStore().fetchUsers({ ids: users })
     },
     methods: {
       addPost(eventData) {

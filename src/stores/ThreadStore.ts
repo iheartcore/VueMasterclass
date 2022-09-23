@@ -79,6 +79,9 @@ export const useThreadStore = defineStore('ThreadStore', {
           })
       })
     },
+    fetchThreads({ ids }: { ids: Array<string> }) {
+      return Promise.all(ids.map((id) => this.fetchThread({ id })))
+    },
     async updateThread({ thread }: { thread: any }) {
       const threadObj = findById({ resources: this.threads, id: thread.id })
       const post = findById({

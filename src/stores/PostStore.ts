@@ -44,5 +44,8 @@ export const usePostStore = defineStore('PostStore', {
           })
       })
     },
+    fetchPosts({ ids }: { ids: Array<string> }) {
+      return Promise.all(ids.map((id) => this.fetchPost({ id })))
+    },
   },
 })

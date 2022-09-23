@@ -70,5 +70,8 @@ export const useUserStore = defineStore('userStore', {
           })
       })
     },
+    fetchUsers({ ids }: { ids: Array<string> }) {
+      return Promise.all(ids.map((id) => this.fetchUser({ id })))
+    },
   },
 })
