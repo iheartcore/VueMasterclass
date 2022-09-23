@@ -11,6 +11,11 @@
         threads: (store) => store.threads,
       }),
     },
+    async beforeCreate() {
+      const categories = await allStore.categoryStore().fetchAllCategories()
+      const forumIds = categories.map((category) => category.forums).flat()
+      allStore.forumStore().fetchForums({ ids: forumIds })
+    },
   }
 </script>
 

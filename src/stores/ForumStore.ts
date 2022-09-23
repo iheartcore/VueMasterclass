@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { addIfNotExists, findById } from '@/helpers'
+import { addIfNotExists, findById, upsert } from '@/helpers'
+import firebase from 'firebase'
 
 export const useForumStore = defineStore('forumStore', {
   state: () => {
@@ -18,6 +19,28 @@ export const useForumStore = defineStore('forumStore', {
       const forum = findById({ resources: this.forums, id: forumId })
       forum.threads = forum?.threads || []
       addIfNotExists(forum.threads, threadId)
+    },
+    setForum({ forum }: { forum: any }) {
+      upsert({ resources: this.forums, newResource: forum })
+    },
+    fetchForum({ id }: { id: string }) {
+      return new Promise((resolve) => {
+        firebase
+          .firestore()
+          .collection('forums')
+          .doc(id)
+          .onSnapshot((doc) => {
+            const forum = {
+              ...doc.data(),
+              id: doc.id,
+            }
+            this.setForum({ forum })
+            resolve(forum)
+          })
+      })
+    },
+    fetchForums({ ids }: { ids: Array<string> }) {
+      return Promise.all(ids.map((id) => this.fetchForum({ id })))
     },
   },
 })
