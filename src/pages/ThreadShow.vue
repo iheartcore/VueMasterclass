@@ -2,8 +2,6 @@
   import { mapState } from 'pinia'
   import { allStore } from '@/stores'
   import { findById } from '@/helpers'
-  import firebase from 'firebase/app'
-  import 'firebase/firestore'
 
   export default {
     props: {
@@ -41,59 +39,20 @@
         return allStore.userStore().getUserById(this.thread.userId)
       },
     },
-    created() {
+    async created() {
       // fetch the thread
-      firebase
-        .firestore()
-        .collection('threads')
-        .doc(this.id)
-        .onSnapshot((doc) => {
-          const thread = {
-            ...doc.data(),
-            id: doc.id,
-          }
-          allStore.threadStore().setThread({ thread })
+      const thread = await allStore.threadStore().fetchThread({ id: this.id })
 
-          // fetch the user
-          firebase
-            .firestore()
-            .collection('users')
-            .doc(thread.userId)
-            .onSnapshot((doc) => {
-              const user = {
-                ...doc.data(),
-                id: doc.id,
-              }
-              allStore.userStore().setUser({ user })
-            })
+      // fetch the user
+      allStore.userStore().fetchUser({ id: thread.userId })
 
-          // fetch the posts
-          thread.posts.forEach((postId) => {
-            firebase
-              .firestore()
-              .collection('posts')
-              .doc(postId)
-              .onSnapshot((doc) => {
-                const post = {
-                  ...doc.data(),
-                  id: doc.id,
-                }
-                allStore.postStore().setPost({ post })
-                // fetch the user for each post
-                firebase
-                  .firestore()
-                  .collection('users')
-                  .doc(post.userId)
-                  .onSnapshot((doc) => {
-                    const user = {
-                      ...doc.data(),
-                      id: doc.id,
-                    }
-                    allStore.userStore().setUser({ user })
-                  })
-              })
-          })
-        })
+      // fetch the posts
+      thread.posts.forEach(async (postId) => {
+        const post = await allStore.postStore().fetchPost({ id: postId })
+
+        // fetch the user for each post
+        allStore.userStore().fetchUser({ id: post.userId })
+      })
     },
     methods: {
       addPost(eventData) {

@@ -3,6 +3,7 @@ import { useUserStore } from '@/stores/UserStore'
 import { usePostStore } from '@/stores/PostStore'
 import { useForumStore } from '@/stores/ForumStore'
 import { addIfNotExists, findById, upsert } from '@/helpers'
+import firebase from 'firebase'
 
 export const useThreadStore = defineStore('ThreadStore', {
   state: () => {
@@ -62,6 +63,22 @@ export const useThreadStore = defineStore('ThreadStore', {
     setThread({ thread }: { thread: any }) {
       console.log(this.threads, thread)
       upsert({ resources: this.threads, newResource: thread })
+    },
+    fetchThread({ id }: { id: string }) {
+      return new Promise((resolve) => {
+        firebase
+          .firestore()
+          .collection('threads')
+          .doc(id)
+          .onSnapshot((doc) => {
+            const thread = {
+              ...doc.data(),
+              id: doc.id,
+            }
+            this.setThread({ thread })
+            resolve(thread)
+          })
+      })
     },
     async updateThread({ thread }: { thread: any }) {
       const threadObj = findById({ resources: this.threads, id: thread.id })

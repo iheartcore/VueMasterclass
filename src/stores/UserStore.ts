@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { usePostStore } from '@/stores/PostStore'
 import { useThreadStore } from '@/stores/ThreadStore'
 import { findById, addIfNotExists, upsert } from '@/helpers'
+import firebase from 'firebase'
 
 export const useUserStore = defineStore('userStore', {
   state: () => {
@@ -52,6 +53,22 @@ export const useUserStore = defineStore('userStore', {
       const user = findById({ resources: this.users, id: userId })
       user.threads = user?.threads || []
       addIfNotExists(user.threads, threadId)
+    },
+    fetchUser({ id }: { id: string }) {
+      return new Promise((resolve) => {
+        firebase
+          .firestore()
+          .collection('users')
+          .doc(id)
+          .onSnapshot((doc) => {
+            const user = {
+              ...doc.data(),
+              id: doc.id,
+            }
+            this.setUser({ user })
+            resolve(user)
+          })
+      })
     },
   },
 })

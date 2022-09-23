@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { useThreadStore } from '@/stores/ThreadStore'
 import { useUserStore } from '@/stores/UserStore'
-import { findById, upsert } from '@/helpers'
+import { upsert } from '@/helpers'
+import firebase from 'firebase'
 
 export const usePostStore = defineStore('PostStore', {
   state: () => {
@@ -26,6 +27,22 @@ export const usePostStore = defineStore('PostStore', {
     },
     setPost({ post }: { post: any }) {
       upsert({ resources: this.posts, newResource: post })
+    },
+    fetchPost({ id }: { id: string }) {
+      return new Promise((resolve) => {
+        firebase
+          .firestore()
+          .collection('posts')
+          .doc(id)
+          .onSnapshot((doc) => {
+            const post = {
+              ...doc.data(),
+              id: doc.id,
+            }
+            this.setPost({ post })
+            resolve(post)
+          })
+      })
     },
   },
 })
