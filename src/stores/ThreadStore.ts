@@ -61,7 +61,6 @@ export const useThreadStore = defineStore('ThreadStore', {
       return findById({ resources: this.threads, id: thread.id })
     },
     setThread({ thread }: { thread: any }) {
-      console.log(this.threads, thread)
       upsert({ resources: this.threads, newResource: thread })
     },
     fetchThread({ id }: { id: string }) {
