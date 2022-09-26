@@ -14,7 +14,9 @@
     async beforeCreate() {
       const categories = await allStore.categoryStore().fetchAllCategories()
       const forumIds = categories.map((category) => category.forums).flat()
-      allStore.forumStore().fetchForums({ ids: forumIds })
+      const forums = await allStore.forumStore().fetchForums({ ids: forumIds })
+      const threadIds = forums.map((forum) => forum.threads).flat()
+      allStore.threadStore().fetchThreads({ ids: threadIds })
     },
   }
 </script>
