@@ -11,13 +11,30 @@ export const usePostStore = defineStore('PostStore', {
     }
   },
   actions: {
-    createPost({ post }: { post: any }) {
-      post.id = 'sdfsa' + Math.random()
+    async createPost({ post }: { post: any }) {
       post.userId = useUserStore().authId
       post.publishedAt = Math.floor(Date.now() / 1000)
+
+      const batch = firebase.firestore().batch()
+      const postRef = firebase.firestore().collection('posts').doc()
+      const threadRef = firebase
+        .firestore()
+        .collection('threads')
+        .doc(post.threadId)
+
+      batch.set(postRef, post)
+      batch.update(threadRef, {
+        posts: firebase.firestore.FieldValue.arrayUnion(postRef.id),
+        contributors: firebase.firestore.FieldValue.arrayUnion(
+          useUserStore().authId
+        ),
+      })
+      await batch.commit()
+
+      post.id = postRef.id
       this.setPost({ post })
       useThreadStore().appendPostToThread({
-        postId: post.id,
+        postId: postRef.id,
         threadId: post.threadId,
       })
       useThreadStore().appendContributorToThread({
