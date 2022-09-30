@@ -23,11 +23,21 @@
           .threads.filter((thread) => thread.forumId === this.id)
       },
     },
+    async created() {
+      const forum = await allStore.forumStore().fetchForum({ id: this.id })
+      const threads = await allStore
+        .threadStore()
+        .fetchThreads({ ids: forum.threads })
+
+      allStore
+        .userStore()
+        .fetchUsers({ ids: threads.map((thread) => thread.userId) })
+    },
   }
 </script>
 
 <template>
-  <div class="col-full push-top">
+  <div v-if="forum" class="col-full push-top">
     <div class="forum-header">
       <div class="forum-details">
         <h1>{{ forum.name }}</h1>
