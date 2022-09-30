@@ -56,6 +56,22 @@ export const useUserStore = defineStore('userStore', {
         addIfNotExists(user.threads, threadId)
       }
     },
+    fetchAuthUser() {
+      return new Promise((resolve) => {
+        firebase
+          .firestore()
+          .collection('users')
+          .doc(this.authId)
+          .onSnapshot((doc) => {
+            const user = {
+              ...doc.data(),
+              id: doc.id,
+            }
+            this.setUser({ user })
+            resolve(user)
+          })
+      })
+    },
     fetchUser({ id }: { id: string }) {
       return new Promise((resolve) => {
         firebase
