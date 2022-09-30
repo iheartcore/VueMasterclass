@@ -17,11 +17,14 @@
         })
       },
     },
+    created() {
+      allStore.forumStore().fetchForum({ id: this.id })
+    },
   }
 </script>
 
 <template>
-  <div class="col-full push-top">
+  <div v-if="forum" class="col-full push-top">
     <h1>
       Create new thread in <em>{{ forum.name }}</em>
     </h1>

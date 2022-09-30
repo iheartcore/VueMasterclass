@@ -79,7 +79,7 @@
         user?.name
       }}</router-link
       >,
-      <AppDate :date="thread.publishedAt" />
+      <AppDate :date="thread?.publishedAt" />
       <span
         style="float: right; margin-top: 2px"
         class="hide-mobile text-faded text-small"

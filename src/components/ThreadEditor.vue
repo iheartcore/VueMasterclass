@@ -62,7 +62,7 @@
 </script>
 
 <template>
-  <form @submit.prevent="save">
+  <form v-if="formData" @submit.prevent="save">
     <div class="form-group">
       <label for="thread_title">Title:</label>
       <input

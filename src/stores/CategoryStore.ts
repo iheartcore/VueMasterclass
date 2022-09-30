@@ -12,6 +12,22 @@ export const useCategoryStore = defineStore('categoryStore', {
     setCategory({ category }: { category: any }) {
       upsert({ resources: this.categories, newResource: category })
     },
+    fetchCategory({ id }: { id: string }) {
+      return new Promise((resolve) => {
+        firebase
+          .firestore()
+          .collection('categories')
+          .doc(id)
+          .onSnapshot((doc) => {
+            const category = {
+              ...doc.data(),
+              id: doc.id,
+            }
+            this.setCategory({ category })
+            resolve(category)
+          })
+      })
+    },
     fetchAllCategories() {
       return new Promise((resolve) => {
         firebase

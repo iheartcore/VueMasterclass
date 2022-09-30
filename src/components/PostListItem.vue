@@ -15,6 +15,9 @@
         users: (store) => store.$state.users,
       }),
     },
+    created() {
+      allStore.postStore().fetchPost({ id: this.post.id })
+    },
     methods: {
       userById(userId) {
         return findById({ resources: this.users, id: userId })
@@ -56,7 +59,7 @@
       </div>
     </div>
 
-    <AppDate class="post-date text-faded" :date="post.publishedAt" />
+    <AppDate class="post-date text-faded" :date="post?.publishedAt" />
   </div>
 </template>
 

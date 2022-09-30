@@ -22,10 +22,16 @@
         })
       },
     },
+    async created() {
+      const category = await allStore
+        .categoryStore()
+        .fetchCategory({ id: this.id })
+      allStore.forumStore().fetchForums({ ids: category.forums })
+    },
   }
 </script>
 
 <template>
-  <h1>{{ category.name }}</h1>
-  <CategoryListItem :category="category" />
+  <h1 v-if="category">{{ category.name }}</h1>
+  <CategoryListItem v-if="category" :category="category" />
 </template>

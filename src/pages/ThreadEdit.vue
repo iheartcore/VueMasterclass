@@ -15,19 +15,28 @@
           resources: allStore.threadStore().threads,
           id: this.id,
         })
-        thread.text = findById({
+
+        const post = findById({
           resources: allStore.postStore().posts,
-          id: thread.posts[0],
-        }).text
+          id: thread?.posts[0],
+        })
+
+        if (thread) {
+          thread.text = post ? post.text : ''
+        }
 
         return thread
       },
+    },
+    async created() {
+      const thread = await allStore.threadStore().fetchThread({ id: this.id })
+      await allStore.postStore().fetchPosts({ ids: thread.posts })
     },
   }
 </script>
 
 <template>
-  <div class="col-full push-top">
+  <div v-if="thread" class="col-full push-top">
     <h1>
       Editing <em>{{ thread.title }}</em>
     </h1>

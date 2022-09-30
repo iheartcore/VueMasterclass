@@ -51,8 +51,10 @@ export const useUserStore = defineStore('userStore', {
     },
     appendThreadToUser({ threadId, userId }: { threadId: any; userId: any }) {
       const user = findById({ resources: this.users, id: userId })
-      user.threads = user?.threads || []
-      addIfNotExists(user.threads, threadId)
+      if (user) {
+        user.threads = user?.threads || []
+        addIfNotExists(user.threads, threadId)
+      }
     },
     fetchUser({ id }: { id: string }) {
       return new Promise((resolve) => {
