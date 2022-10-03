@@ -57,6 +57,14 @@
           {{ post.text }}
         </p>
       </div>
+      <a
+        href="#"
+        style="margin-left: auto; padding-left: 10px"
+        class="link-unstyled"
+        title="Make a change"
+      >
+        <FontAwesome icon="pencil-alt" />
+      </a>
     </div>
 
     <AppDate class="post-date text-faded" :date="post?.publishedAt" />
