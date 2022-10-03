@@ -19,21 +19,11 @@ export const useUserStore = defineStore('userStore', {
 
       return {
         ...user,
-        get posts() {
-          return usePostStore().posts.filter(
-            (posts) => posts.userId === user.id
-          )
-        },
-        get threads() {
-          return useThreadStore().threads.filter(
-            (posts) => posts.userId === user.id
-          )
-        },
         get postsCount() {
-          return this.posts.length
+          return user.postsCount || 0
         },
         get threadsCount() {
-          return this.threads.length
+          return user.threads.length || 0
         },
       }
     },

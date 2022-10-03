@@ -21,6 +21,10 @@ export const usePostStore = defineStore('PostStore', {
         .firestore()
         .collection('threads')
         .doc(post.threadId)
+      const userRef = firebase
+        .firestore()
+        .collection('users')
+        .doc(useUserStore().authId)
 
       batch.set(postRef, post)
       batch.update(threadRef, {
@@ -28,6 +32,9 @@ export const usePostStore = defineStore('PostStore', {
         contributors: firebase.firestore.FieldValue.arrayUnion(
           useUserStore().authId
         ),
+      })
+      batch.update(userRef, {
+        postsCount: firebase.firestore.FieldValue.increment(1),
       })
       await batch.commit()
 
