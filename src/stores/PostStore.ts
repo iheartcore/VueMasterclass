@@ -51,6 +51,22 @@ export const usePostStore = defineStore('PostStore', {
         threadId: post.threadId,
       })
     },
+    async updatePost({ text, id }: { text: string; id: string }) {
+      const post = {
+        text,
+        id,
+        edited: {
+          at: firebase.firestore.FieldValue.serverTimestamp(),
+          by: useUserStore().authId,
+        },
+      }
+
+      const postRef = firebase.firestore().collection('posts').doc(id)
+      await postRef.update(post)
+
+      const updatedPost = await postRef.get()
+      this.setPost({ post: updatedPost })
+    },
     setPost({ post }: { post: any }) {
       upsert({ resources: this.posts, newResource: docToResource(post) })
     },

@@ -19,6 +19,9 @@
       ...mapState(allStore.userStore, {
         users: (store) => store.$state.users,
       }),
+      userId() {
+        return allStore.userStore().authId
+      },
     },
     created() {
       allStore.postStore().fetchPost({ id: this.post.id })
@@ -48,6 +51,10 @@
           this.editing = id
         }
       },
+      updatePost(post) {
+        allStore.postStore().updatePost(post)
+        this.editing = null
+      },
     },
   }
 </script>
@@ -66,13 +73,14 @@
     <div class="post-content">
       <div>
         <div v-if="editing === post.id" class="col-full">
-          <PostEditor :post="post" />
+          <PostEditor :post="post" @save="updatePost($event.post)" />
         </div>
         <p v-else>
           {{ post.text }}
         </p>
       </div>
       <a
+        v-if="post.userId === userId"
         href="#"
         style="margin-left: auto; padding-left: 10px"
         class="link-unstyled"
@@ -83,6 +91,7 @@
       </a>
     </div>
 
+    <div v-if="post.edited?.at" class="edition-info">edited</div>
     <AppDate class="post-date text-faded" :date="post?.publishedAt" />
   </div>
 </template>
