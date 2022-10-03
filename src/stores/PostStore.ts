@@ -13,7 +13,7 @@ export const usePostStore = defineStore('PostStore', {
   actions: {
     async createPost({ post }: { post: any }) {
       post.userId = useUserStore().authId
-      post.publishedAt = Math.floor(Date.now() / 1000)
+      post.publishedAt = firebase.firestore.FieldValue.serverTimestamp()
 
       const batch = firebase.firestore().batch()
       const postRef = firebase.firestore().collection('posts').doc()
@@ -31,6 +31,8 @@ export const usePostStore = defineStore('PostStore', {
       })
       await batch.commit()
 
+      const newPost = await postRef.get()
+      post = newPost.data()
       post.id = postRef.id
       this.setPost({ post })
       useThreadStore().appendPostToThread({

@@ -2,21 +2,25 @@
   export default {
     props: {
       date: {
-        type: Number,
+        type: [Number, Object],
         required: true,
       },
     },
-    methods: {
-      diffForHumans(timestamp) {
-        return this.$utils.format.fromNow(timestamp)
+    computed: {
+      normalizedTimeStamp() {
+        return this.date?.seconds || this.date
       },
-      humanFriendlyDate(timestamp) {
-        return this.$utils.format.date(timestamp)
+      diffForHumans() {
+        return this.$utils.format.fromNow(this.normalizedTimeStamp)
+      },
+      humanFriendlyDate() {
+        return this.$utils.format.date(this.normalizedTimeStamp)
       },
     },
+    methods: {},
   }
 </script>
 
 <template>
-  <span :title="humanFriendlyDate(date)">{{ diffForHumans(date) }}</span>
+  <span :title="humanFriendlyDate">{{ diffForHumans }}</span>
 </template>
