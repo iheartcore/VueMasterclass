@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia'
-import { usePostStore } from '@/stores/PostStore'
-import { useThreadStore } from '@/stores/ThreadStore'
-import { findById, addIfNotExists, upsert } from '@/helpers'
+import { findById, addIfNotExists, upsert, docToResource } from '@/helpers'
 import firebase from 'firebase'
 
 export const useUserStore = defineStore('userStore', {
@@ -34,10 +32,10 @@ export const useUserStore = defineStore('userStore', {
   },
   actions: {
     saveUser({ activeUser }: { activeUser: any }) {
-      upsert({ resources: this.users, newResource: activeUser })
+      upsert({ resources: this.users, newResource: docToResource(activeUser) })
     },
     setUser({ user }: { user: any }) {
-      upsert({ resources: this.users, newResource: user })
+      upsert({ resources: this.users, newResource: docToResource(user) })
     },
     appendThreadToUser({ threadId, userId }: { threadId: any; userId: any }) {
       const user = findById({ resources: this.users, id: userId })

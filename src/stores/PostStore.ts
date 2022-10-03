@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useThreadStore } from '@/stores/ThreadStore'
 import { useUserStore } from '@/stores/UserStore'
-import { upsert } from '@/helpers'
+import { upsert, docToResource } from '@/helpers'
 import firebase from 'firebase'
 
 export const usePostStore = defineStore('PostStore', {
@@ -52,7 +52,7 @@ export const usePostStore = defineStore('PostStore', {
       })
     },
     setPost({ post }: { post: any }) {
-      upsert({ resources: this.posts, newResource: post })
+      upsert({ resources: this.posts, newResource: docToResource(post) })
     },
     fetchPost({ id }: { id: string }) {
       return new Promise((resolve) => {

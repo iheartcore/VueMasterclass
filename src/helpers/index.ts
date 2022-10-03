@@ -27,3 +27,14 @@ export const addIfNotExists = (resource, id) => {
     resource.push(id)
   }
 }
+
+export const docToResource = (doc) => {
+  if (typeof doc?.data !== 'function') {
+    return doc
+  }
+
+  return {
+    ...doc.data(),
+    id: doc.id,
+  }
+}

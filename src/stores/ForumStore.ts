@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { addIfNotExists, findById, upsert } from '@/helpers'
+import { addIfNotExists, findById, upsert, docToResource } from '@/helpers'
 import firebase from 'firebase'
 
 export const useForumStore = defineStore('forumStore', {
@@ -21,7 +21,7 @@ export const useForumStore = defineStore('forumStore', {
       addIfNotExists(forum.threads, threadId)
     },
     setForum({ forum }: { forum: any }) {
-      upsert({ resources: this.forums, newResource: forum })
+      upsert({ resources: this.forums, newResource: docToResource(forum) })
     },
     fetchForum({ id }: { id: string }) {
       return new Promise((resolve) => {

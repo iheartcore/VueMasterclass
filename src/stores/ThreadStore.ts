@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { useUserStore } from '@/stores/UserStore'
 import { usePostStore } from '@/stores/PostStore'
 import { useForumStore } from '@/stores/ForumStore'
-import { addIfNotExists, findById, upsert } from '@/helpers'
+import { addIfNotExists, docToResource, findById, upsert } from '@/helpers'
 import firebase from 'firebase'
 
 export const useThreadStore = defineStore('ThreadStore', {
@@ -80,7 +80,7 @@ export const useThreadStore = defineStore('ThreadStore', {
       return findById({ resources: this.threads, id: threadRef.id })
     },
     setThread({ thread }: { thread: any }) {
-      upsert({ resources: this.threads, newResource: thread })
+      upsert({ resources: this.threads, newResource: docToResource(thread) })
     },
     fetchThread({ id }: { id: string }) {
       return new Promise((resolve) => {
@@ -107,14 +107,26 @@ export const useThreadStore = defineStore('ThreadStore', {
         resources: usePostStore().posts,
         id: threadObj?.posts[0],
       })
-      const newThread = { ...threadObj, title: thread.title }
+      let newThread = { ...threadObj, title: thread.title }
       const newPost = { ...post, text: thread.text }
       delete thread.text
+
+      const threadRef = firebase
+        .firestore()
+        .collection('threads')
+        .doc(thread.id)
+      const postRef = firebase.firestore().collection('posts').doc(post.id)
+      const batch = firebase.firestore().batch()
+      batch.update(threadRef, newThread)
+      batch.update(postRef, newPost)
+      await batch.commit()
+
+      newThread = await threadRef.get()
 
       this.setThread({ thread: newThread })
       usePostStore().setPost({ post: newPost })
 
-      return thread
+      return docToResource(newThread)
     },
   },
 })

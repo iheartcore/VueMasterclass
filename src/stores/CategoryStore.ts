@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import firebase from 'firebase'
-import { upsert } from '@/helpers'
+import { upsert, docToResource } from '@/helpers'
 
 export const useCategoryStore = defineStore('categoryStore', {
   state: () => {
@@ -10,7 +10,10 @@ export const useCategoryStore = defineStore('categoryStore', {
   },
   actions: {
     setCategory({ category }: { category: any }) {
-      upsert({ resources: this.categories, newResource: category })
+      upsert({
+        resources: this.categories,
+        newResource: docToResource(category),
+      })
     },
     fetchCategory({ id }: { id: string }) {
       return new Promise((resolve) => {
