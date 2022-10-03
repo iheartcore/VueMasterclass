@@ -36,29 +36,48 @@ export const useThreadStore = defineStore('ThreadStore', {
     },
     async createThread({ thread, forumId }: { thread: any; forumId: any }) {
       const postText = thread.text
-      thread.id = 'safsadfa' + Math.random()
       thread.forumId = forumId
       thread.userId = useUserStore().authId
-      thread.publishedAt = Math.floor(Date.now() / 1000)
+      thread.publishedAt = firebase.firestore.FieldValue.serverTimestamp()
       delete thread.text
+
+      const threadRef = firebase.firestore().collection('threads').doc()
+      const userRef = firebase
+        .firestore()
+        .collection('users')
+        .doc(useUserStore().authId)
+      const forumRef = firebase.firestore().collection('forums').doc(forumId)
+      const batch = firebase.firestore().batch()
+
+      batch.set(threadRef, thread)
+      batch.update(userRef, {
+        threads: firebase.firestore.FieldValue.arrayUnion(threadRef.id),
+      })
+      batch.update(forumRef, {
+        threads: firebase.firestore.FieldValue.arrayUnion(threadRef.id),
+      })
+
+      await batch.commit()
+      const newThread = await threadRef.get()
+
+      this.setThread({ thread: newThread })
+      useUserStore().appendThreadToUser({
+        threadId: threadRef.id,
+        userId: userRef.id,
+      })
+      useForumStore().appendThreadToForum({
+        threadId: threadRef.id,
+        forumId: forumRef.id,
+      })
 
       const post = {
         text: postText,
-        threadId: thread.id,
+        threadId: threadRef.id,
       }
 
-      this.setThread({ thread })
-      useUserStore().appendThreadToUser({
-        threadId: thread.id,
-        userId: thread.userId,
-      })
-      useForumStore().appendThreadToForum({
-        threadId: thread.id,
-        forumId: forumId,
-      })
-      usePostStore().createPost({ post: post })
+      await usePostStore().createPost({ post: post })
 
-      return findById({ resources: this.threads, id: thread.id })
+      return findById({ resources: this.threads, id: threadRef.id })
     },
     setThread({ thread }: { thread: any }) {
       upsert({ resources: this.threads, newResource: thread })
