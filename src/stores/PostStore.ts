@@ -3,6 +3,7 @@ import { useThreadStore } from '@/stores/ThreadStore'
 import { useUserStore } from '@/stores/UserStore'
 import { upsert, docToResource } from '@/helpers'
 import firebase from 'firebase'
+import { allStore } from '@/stores/index'
 
 export const usePostStore = defineStore('PostStore', {
   state: () => {
@@ -72,7 +73,7 @@ export const usePostStore = defineStore('PostStore', {
     },
     fetchPost({ id }: { id: string }) {
       return new Promise((resolve) => {
-        firebase
+        const unsubscribe = firebase
           .firestore()
           .collection('posts')
           .doc(id)
@@ -82,6 +83,7 @@ export const usePostStore = defineStore('PostStore', {
               id: doc.id,
             }
             this.setPost({ post })
+            allStore.addUnsubscribe(unsubscribe)
             resolve(post)
           })
       })

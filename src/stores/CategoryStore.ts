@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import firebase from 'firebase'
 import { upsert, docToResource } from '@/helpers'
+import { allStore } from '@/stores/index'
 
 export const useCategoryStore = defineStore('categoryStore', {
   state: () => {
@@ -17,7 +18,7 @@ export const useCategoryStore = defineStore('categoryStore', {
     },
     fetchCategory({ id }: { id: string }) {
       return new Promise((resolve) => {
-        firebase
+        const unsubscribe = firebase
           .firestore()
           .collection('categories')
           .doc(id)
@@ -27,13 +28,14 @@ export const useCategoryStore = defineStore('categoryStore', {
               id: doc.id,
             }
             this.setCategory({ category })
+            allStore.addUnsubscribe(unsubscribe)
             resolve(category)
           })
       })
     },
     fetchAllCategories() {
       return new Promise((resolve) => {
-        firebase
+        const unsubscribe = firebase
           .firestore()
           .collection('categories')
           .onSnapshot((querySnapshot) => {
@@ -42,6 +44,7 @@ export const useCategoryStore = defineStore('categoryStore', {
               this.setCategory({ category: item })
               return item
             })
+            allStore.addUnsubscribe(unsubscribe)
             resolve(categories)
           })
       })

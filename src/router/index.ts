@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import routes from './routes'
+import { allStore } from '@/stores'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -14,6 +15,10 @@ const router = createRouter({
     }
     return scroll
   },
+})
+
+router.beforeEach(() => {
+  allStore.unsubscribeAllSnapshots()
 })
 
 export default router

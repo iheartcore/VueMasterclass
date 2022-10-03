@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { findById, addIfNotExists, upsert, docToResource } from '@/helpers'
 import firebase from 'firebase'
+import { allStore } from '@/stores/index'
 
 export const useUserStore = defineStore('userStore', {
   state: () => {
@@ -46,7 +47,7 @@ export const useUserStore = defineStore('userStore', {
     },
     fetchAuthUser() {
       return new Promise((resolve) => {
-        firebase
+        const unsubscribe = firebase
           .firestore()
           .collection('users')
           .doc(this.authId)
@@ -56,13 +57,14 @@ export const useUserStore = defineStore('userStore', {
               id: doc.id,
             }
             this.setUser({ user })
+            allStore.addUnsubscribe(unsubscribe)
             resolve(user)
           })
       })
     },
     fetchUser({ id }: { id: string }) {
       return new Promise((resolve) => {
-        firebase
+        const unsubscribe = firebase
           .firestore()
           .collection('users')
           .doc(id)
@@ -72,6 +74,7 @@ export const useUserStore = defineStore('userStore', {
               id: doc.id,
             }
             this.setUser({ user })
+            allStore.addUnsubscribe(unsubscribe)
             resolve(user)
           })
       })

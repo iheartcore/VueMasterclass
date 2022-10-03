@@ -10,4 +10,15 @@ export const allStore = {
   forumStore: useForumStore,
   categoryStore: useCategoryStore,
   userStore: useUserStore,
+  unsubscribes: [],
+  addUnsubscribe(unsubscribe) {
+    this.unsubscribes.push(unsubscribe)
+  },
+  unsubscribeAllSnapshots() {
+    this.unsubscribes.forEach((unsubscribe) => unsubscribe())
+    this.clearAllUnsubscribes()
+  },
+  clearAllUnsubscribes() {
+    this.unsubscribes = []
+  },
 }

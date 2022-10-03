@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { addIfNotExists, findById, upsert, docToResource } from '@/helpers'
 import firebase from 'firebase'
+import { allStore } from '@/stores/index'
 
 export const useForumStore = defineStore('forumStore', {
   state: () => {
@@ -25,7 +26,7 @@ export const useForumStore = defineStore('forumStore', {
     },
     fetchForum({ id }: { id: string }) {
       return new Promise((resolve) => {
-        firebase
+        const unsubscribe = firebase
           .firestore()
           .collection('forums')
           .doc(id)
@@ -35,6 +36,7 @@ export const useForumStore = defineStore('forumStore', {
               id: doc.id,
             }
             this.setForum({ forum })
+            allStore.addUnsubscribe(unsubscribe)
             resolve(forum)
           })
       })

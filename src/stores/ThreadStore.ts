@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useUserStore } from '@/stores/UserStore'
 import { usePostStore } from '@/stores/PostStore'
 import { useForumStore } from '@/stores/ForumStore'
+import { allStore } from '@/stores/'
 import { addIfNotExists, docToResource, findById, upsert } from '@/helpers'
 import firebase from 'firebase'
 
@@ -84,7 +85,7 @@ export const useThreadStore = defineStore('ThreadStore', {
     },
     fetchThread({ id }: { id: string }) {
       return new Promise((resolve) => {
-        firebase
+        const unsubscribe = firebase
           .firestore()
           .collection('threads')
           .doc(id)
@@ -94,6 +95,7 @@ export const useThreadStore = defineStore('ThreadStore', {
               id: doc.id,
             }
             this.setThread({ thread })
+            allStore.addUnsubscribe(unsubscribe)
             resolve(thread)
           })
       })
