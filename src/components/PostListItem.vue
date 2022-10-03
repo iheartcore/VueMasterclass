@@ -10,6 +10,11 @@
         required: true,
       },
     },
+    data() {
+      return {
+        editing: null,
+      }
+    },
     computed: {
       ...mapState(allStore.userStore, {
         users: (store) => store.$state.users,
@@ -36,6 +41,13 @@
 
         return count === 1 ? count + ' thread' : count + ' threads'
       },
+      toggleEditMode(id) {
+        if (this.editing) {
+          this.editing = null
+        } else {
+          this.editing = id
+        }
+      },
     },
   }
 </script>
@@ -53,7 +65,10 @@
 
     <div class="post-content">
       <div>
-        <p>
+        <div v-if="editing === post.id" class="col-full">
+          <PostEditor :post="post" />
+        </div>
+        <p v-else>
           {{ post.text }}
         </p>
       </div>
@@ -62,6 +77,7 @@
         style="margin-left: auto; padding-left: 10px"
         class="link-unstyled"
         title="Make a change"
+        @click.prevent="toggleEditMode(post.id)"
       >
         <FontAwesome icon="pencil-alt" />
       </a>

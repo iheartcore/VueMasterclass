@@ -1,19 +1,28 @@
 <script>
   export default {
+    props: {
+      post: {
+        type: Object,
+        default: () => ({ text: null }),
+      },
+    },
     emits: ['save'],
     data() {
       return {
         postText: '',
+        newPost: { ...this.post },
       }
+    },
+    computed: {
+      buttonLabel() {
+        return this.post.id ? 'Update Post' : 'Submit post'
+      },
     },
     methods: {
       save() {
-        const post = {
-          text: this.postText,
-        }
-        this.$emit('save', { post })
+        this.$emit('save', { post: this.newPost })
 
-        this.postText = ''
+        this.newPost.text = ''
       },
     },
   }
@@ -25,7 +34,7 @@
       <div class="form-group">
         <textarea
           id=""
-          v-model="postText"
+          v-model="newPost.text"
           class="form-input"
           name=""
           cols="30"
@@ -33,7 +42,7 @@
         ></textarea>
       </div>
       <div class="form-actions">
-        <button class="btn-blue">Submit post</button>
+        <button class="btn-blue">{{ buttonLabel }}</button>
       </div>
     </form>
   </div>
