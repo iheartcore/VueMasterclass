@@ -2,8 +2,10 @@
   import { mapState } from 'pinia'
   import { allStore } from '@/stores'
   import { findById } from '@/helpers'
+  import asyncDataStatus from '@/mixins/asyncDataStatus'
 
   export default {
+    mixins: [asyncDataStatus],
     props: {
       id: {
         type: String,
@@ -49,7 +51,8 @@
       // fetch the posts and users
       const posts = await allStore.postStore().fetchPosts({ ids: thread.posts })
       const users = posts.map((post) => post.userId)
-      allStore.userStore().fetchUsers({ ids: users })
+      await allStore.userStore().fetchUsers({ ids: users })
+      this.asyncDataStatus_fetched()
     },
     methods: {
       addPost(eventData) {
@@ -65,7 +68,7 @@
 </script>
 
 <template>
-  <div v-if="thread" class="col-large push-top">
+  <div v-if="asyncDataStatus_ready" class="col-large push-top">
     <h1>{{ thread.title }}</h1>
     <router-link
       :to="{ name: 'ThreadEdit', params: { id: id } }"

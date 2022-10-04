@@ -1,13 +1,10 @@
 <script>
   import { mapState } from 'pinia'
   import { allStore } from '@/stores'
+  import asyncDataStatus from '@/mixins/asyncDataStatus'
 
   export default {
-    data() {
-      return {
-        ready: false,
-      }
-    },
+    mixins: [asyncDataStatus],
     computed: {
       ...mapState(allStore.categoryStore, {
         categories: (store) => store.categories,
@@ -22,13 +19,13 @@
       const forums = await allStore.forumStore().fetchForums({ ids: forumIds })
       const threadIds = forums.map((forum) => forum.threads).flat()
       await allStore.threadStore().fetchThreads({ ids: threadIds })
-      this.ready = true
+      this.asyncDataStatus_fetched()
     },
   }
 </script>
 
 <template>
-  <div v-if="ready" class="container">
+  <div v-if="asyncDataStatus_ready" class="container">
     <h1 class="push-top">Welcome to the Forum</h1>
     <CategoryList :categories="categories" />
     <ThreadList :threads="threads" />

@@ -2,8 +2,10 @@
   import { mapState } from 'pinia'
   import { allStore } from '@/stores'
   import { findById } from '@/helpers'
+  import asyncDataStatus from '@/mixins/asyncDataStatus'
 
   export default {
+    mixins: [asyncDataStatus],
     props: {
       id: {
         type: String,
@@ -29,15 +31,17 @@
         .threadStore()
         .fetchThreads({ ids: forum.threads })
 
-      allStore
+      await allStore
         .userStore()
         .fetchUsers({ ids: threads.map((thread) => thread.userId) })
+
+      this.asyncDataStatus_fetched()
     },
   }
 </script>
 
 <template>
-  <div v-if="forum" class="col-full push-top">
+  <div v-if="asyncDataStatus_ready" class="col-full push-top">
     <div class="forum-header">
       <div class="forum-details">
         <h1>{{ forum.name }}</h1>
