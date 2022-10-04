@@ -13,13 +13,18 @@
         this.showPage = false
       })
     },
+    methods: {
+      onPageReady() {
+        this.showPage = true
+      },
+    },
   }
 </script>
 
 <template>
   <TheNavbar />
   <div class="container">
-    <router-view v-show="showPage" @ready="showPage = true" />
+    <router-view v-show="showPage" @ready="onPageReady" />
     <AppLoadingIndicator v-show="!showPage" />
   </div>
 </template>
