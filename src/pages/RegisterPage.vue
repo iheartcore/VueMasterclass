@@ -1,56 +1,89 @@
 <script>
-export default {
-  data () {
-    return {
-      formData: {
-        name: '',
-        username: '',
-        email: '',
-        password: '',
-        avatar: '',
+  import { allStore } from '@/stores'
+
+  export default {
+    data() {
+      return {
+        formData: {
+          name: '',
+          username: '',
+          email: '',
+          password: '',
+          avatar: '',
+        },
       }
-    }
-  },
-  methods: {
-    register () {
-      console.log('register', this.formData)
-    }
-  },
-  created () {
-    this.$emit('ready')
+    },
+    created() {
+      this.$emit('ready')
+    },
+    methods: {
+      async register() {
+        console.log('register', this.formData)
+        await allStore.userStore().createUser({
+          email: this.formData.email,
+          name: this.formData.name,
+          username: this.formData.username,
+          avatar: this.formData.avatar,
+        })
+      },
+    },
   }
-}
 </script>
 
 <template>
   <div class="flex-grid justify-center">
     <div class="col-2">
-      <form @submit.prevent="register" class="card card-form">
+      <form class="card card-form" @submit.prevent="register">
         <h1 class="text-center">Register</h1>
 
         <div class="form-group">
           <label for="name">Full Name</label>
-          <input v-model="formData.name" id="name" type="text" class="form-input" />
+          <input
+            id="name"
+            v-model="formData.name"
+            type="text"
+            class="form-input"
+          />
         </div>
 
         <div class="form-group">
           <label for="username">Username</label>
-          <input v-model="formData.username" id="username" type="text" class="form-input" />
+          <input
+            id="username"
+            v-model="formData.username"
+            type="text"
+            class="form-input"
+          />
         </div>
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input v-model="formData.email" id="email" type="email" class="form-input" />
+          <input
+            id="email"
+            v-model="formData.email"
+            type="email"
+            class="form-input"
+          />
         </div>
 
         <div class="form-group">
           <label for="password">Password</label>
-          <input v-model="formData.password" id="password" type="password" class="form-input" />
+          <input
+            id="password"
+            v-model="formData.password"
+            type="password"
+            class="form-input"
+          />
         </div>
 
         <div class="form-group">
           <label for="avatar">Avatar</label>
-          <input v-model="formData.avatar" id="avatar" type="text" class="form-input" />
+          <input
+            id="avatar"
+            v-model="formData.avatar"
+            type="text"
+            class="form-input"
+          />
         </div>
 
         <div class="form-actions">
@@ -66,6 +99,4 @@ export default {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
