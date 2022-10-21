@@ -18,9 +18,9 @@
     },
     methods: {
       async register() {
-        console.log('register', this.formData)
-        await allStore.userStore().createUser({
+        await allStore.userStore().registerUserWithEmailAndPassword({
           email: this.formData.email,
+          password: this.formData.password,
           name: this.formData.name,
           username: this.formData.username,
           avatar: this.formData.avatar,

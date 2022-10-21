@@ -32,7 +32,44 @@ export const useUserStore = defineStore('userStore', {
     },
   },
   actions: {
-    async createUser({email, name, username, avatar = null}: { email: string, name: string, username: string, avatar: any}) {
+    async registerUserWithEmailAndPassword({
+      email,
+      password,
+      name,
+      username,
+      avatar = null,
+    }: {
+      email: string
+      password: string
+      name: string
+      username: string
+      avatar: any
+    }) {
+      const result = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+
+      await allStore.userStore().createUser({
+        email: email,
+        name: name,
+        username: username,
+        avatar: avatar,
+        id: result.user.uid,
+      })
+    },
+    async createUser({
+      email,
+      name,
+      username,
+      avatar = null,
+      id,
+    }: {
+      email: string
+      name: string
+      username: string
+      avatar: any
+      id: string
+    }) {
       const registeredAt = firebase.firestore.FieldValue.serverTimestamp()
       const usernameLower = username.toLowerCase()
       email = email.toLowerCase()
@@ -46,7 +83,7 @@ export const useUserStore = defineStore('userStore', {
         usernameLower,
       }
 
-      const userRef = await firebase.firestore().collection('users').doc()
+      const userRef = await firebase.firestore().collection('users').doc(id)
       userRef.set(user)
       const newUser = await userRef.get()
       upsert({ resources: this.users, newResource: docToResource(newUser) })
