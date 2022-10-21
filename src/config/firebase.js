@@ -1,8 +1,8 @@
 module.exports = {
-  apiKey: 'AIzaSyDGi0p_kpbhOQ4Vc-9a2_rqIpihBEmSPlA',
-  authDomain: 'vueschoolmasterclass-461e7.firebaseapp.com',
-  projectId: 'vueschoolmasterclass-461e7',
-  storageBucket: 'vueschoolmasterclass-461e7.appspot.com',
-  messagingSenderId: '826537274892',
-  appId: '1:826537274892:web:febdec7be608e9edad4829',
+  apiKey: process.env.VITE_FIREBASE_API_KEY,
+  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VITE_FIREBASE_APP_ID,
 }
