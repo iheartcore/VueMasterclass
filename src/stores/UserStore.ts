@@ -7,7 +7,7 @@ export const useUserStore = defineStore('userStore', {
   state: () => {
     return {
       users: [],
-      authId: 'VXjpr2WHa8Ux4Bnggym8QFLdv5C3',
+      authId: null,
     }
   },
   getters: {
@@ -56,6 +56,7 @@ export const useUserStore = defineStore('userStore', {
         avatar: avatar,
         id: result.user.uid,
       })
+      await allStore.userStore().fetchAuthUser()
     },
     async createUser({
       email,
@@ -104,17 +105,20 @@ export const useUserStore = defineStore('userStore', {
       }
     },
     fetchAuthUser() {
+      const userId = firebase.auth().currentUser?.uid
+      if (!userId) return
       return new Promise((resolve) => {
         const unsubscribe = firebase
           .firestore()
           .collection('users')
-          .doc(this.authId)
+          .doc(userId)
           .onSnapshot((doc) => {
             const user = {
               ...doc.data(),
               id: doc.id,
             }
             this.setUser({ user })
+            this.authId = userId
             allStore.addUnsubscribe(unsubscribe)
             resolve(user)
           })

@@ -5,11 +5,13 @@ import App from '@/App.vue'
 import router from '@/router'
 import utils from '@/plugins/utils'
 import FontAwesome from '@/plugins/FontAwesome'
+import { allStore } from '@/stores/index'
 
 import './styles/app/style.scss'
 
 const pinia = createPinia()
 const app = createApp(App)
+app.use(pinia)
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDGi0p_kpbhOQ4Vc-9a2_rqIpihBEmSPlA',
@@ -21,8 +23,13 @@ const firebaseConfig = {
 }
 
 firebase.initializeApp(firebaseConfig)
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    allStore.userStore().fetchAuthUser()
+  }
+})
 
 // TODO: Remove when vuejs is upgraded to >=3.3
 app.config.unwrapInjectedRef = true
 
-app.use(pinia).use(utils).use(FontAwesome).use(router).mount('#app')
+app.use(utils).use(FontAwesome).use(router).mount('#app')
