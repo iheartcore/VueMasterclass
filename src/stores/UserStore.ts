@@ -40,7 +40,6 @@ export const useUserStore = defineStore('userStore', {
       const userDoc = await userRef.get()
 
       if (!userDoc.exists) {
-        console.log(user)
         return this.createUser({
           email: user.email,
           id: user.uid,
@@ -61,7 +60,7 @@ export const useUserStore = defineStore('userStore', {
       password: string
       name: string
       username: string
-      avatar: any
+      avatar: string
     }) {
       const result = await firebase
         .auth()
@@ -97,7 +96,7 @@ export const useUserStore = defineStore('userStore', {
       email: string
       name: string
       username: string
-      avatar: any
+      avatar: string
       id: string
     }) {
       const registeredAt = firebase.firestore.FieldValue.serverTimestamp()
