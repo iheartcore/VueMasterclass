@@ -17,8 +17,12 @@ const router = createRouter({
   },
 })
 
-router.beforeEach(() => {
+router.beforeEach((to, from) => {
   allStore.unsubscribeAllSnapshots()
+
+  if (to.meta.requiresAuth && !allStore.userStore().authId) {
+    return { name: 'Home' }
+  }
 })
 
 export default router

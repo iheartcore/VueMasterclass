@@ -20,12 +20,7 @@ const routes = [
     path: '/me',
     name: 'Profile',
     component: Profile,
-    meta: { toTop: true, smoothScroll: true },
-    beforeEnter(to, from) {
-      if (!allStore.userStore().authId) {
-        return { name: 'Home' }
-      }
-    },
+    meta: { toTop: true, smoothScroll: true, requiresAuth: true },
   },
   {
     path: '/me/edit',

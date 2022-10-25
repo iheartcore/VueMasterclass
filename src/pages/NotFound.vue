@@ -1,5 +1,6 @@
 <script>
   export default {
+    emits: ['ready'],
     created() {
       this.$emit('ready')
     },
