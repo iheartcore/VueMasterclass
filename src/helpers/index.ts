@@ -1,4 +1,10 @@
-export const findById = ({ resources, id }: { resources: any; id: string }) => {
+export const findById = ({
+  resources,
+  id,
+}: {
+  resources: Array
+  id: string
+}) => {
   if (!resources) {
     return null
   }

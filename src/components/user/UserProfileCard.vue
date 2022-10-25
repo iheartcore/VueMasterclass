@@ -6,6 +6,10 @@
         required: true,
       },
     },
+    emits: ['ready'],
+    created() {
+      this.$emit('ready')
+    },
   }
 </script>
 

@@ -12,7 +12,9 @@ export const useUserStore = defineStore('userStore', {
   },
   getters: {
     authUser(state) {
+      console.log(state.users, state.authId)
       const user = findById({ resources: state.users, id: state.authId })
+      console.log(user)
 
       if (!user) return null
 
@@ -22,7 +24,7 @@ export const useUserStore = defineStore('userStore', {
           return user.postsCount || 0
         },
         get threadsCount() {
-          return user.threads.length || 0
+          return user.threads?.length || 0
         },
       }
     },
@@ -58,10 +60,12 @@ export const useUserStore = defineStore('userStore', {
       })
       await allStore.userStore().fetchAuthUser()
     },
-    signInWithEmailAndPassword({ data }: { data: any }) {
-      return firebase
+    async signInWithEmailAndPassword({ data }: { data: any }) {
+      const result = await firebase
         .auth()
         .signInWithEmailAndPassword(data.email, data.password)
+
+      this.fetchAuthUser(result.uid)
     },
     async signOut() {
       await firebase.auth().signOut
@@ -126,8 +130,8 @@ export const useUserStore = defineStore('userStore', {
               ...doc.data(),
               id: doc.id,
             }
-            this.setUser({ user })
             this.authId = userId
+            this.setUser({ user })
             allStore.addUnsubscribe(unsubscribe)
             resolve(user)
           })

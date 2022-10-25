@@ -9,16 +9,20 @@
         default: false,
       },
     },
+    emits: ['ready'],
     computed: {
       ...mapState(allStore.userStore, {
         user: (store) => store.authUser,
       }),
     },
+    created() {
+      this.$emit('ready')
+    },
   }
 </script>
 
 <template>
-  <div class="container">
+  <div v-if="user" class="container">
     <div class="flex-grid">
       <div class="col-3 push-top">
         <UserProfileCard v-if="!edit" :user="user" />
@@ -37,7 +41,7 @@
 
         <hr />
 
-        <PostList :posts="user.posts" />
+        <PostList v-if="user.posts" :posts="user.posts" />
 
         <div class="activity-list">
           <div class="activity">

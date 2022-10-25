@@ -8,10 +8,14 @@
         required: true,
       },
     },
+    emits: ['ready'],
     data() {
       return {
         activeUser: { ...this.user },
       }
+    },
+    created() {
+      this.$emit('ready')
     },
     methods: {
       save() {
