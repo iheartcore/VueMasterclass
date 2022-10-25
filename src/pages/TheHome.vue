@@ -5,6 +5,7 @@
 
   export default {
     mixins: [asyncDataStatus],
+    emits: ['ready'],
     computed: {
       ...mapState(allStore.categoryStore, {
         categories: (store) => store.categories,
@@ -20,6 +21,9 @@
       const threadIds = forums.map((forum) => forum.threads).flat()
       await allStore.threadStore().fetchThreads({ ids: threadIds })
       this.asyncDataStatus_fetched()
+    },
+    created() {
+      this.$emit('ready')
     },
   }
 </script>

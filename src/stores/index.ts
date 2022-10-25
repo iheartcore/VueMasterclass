@@ -32,3 +32,5 @@ export const allStore = {
     this.authUserUnsubscribe = unsubscribe
   },
 }
+
+export default allStore

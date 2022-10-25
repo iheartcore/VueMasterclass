@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { findById, addIfNotExists, upsert, docToResource } from '@/helpers'
 import firebase from 'firebase'
-import { allStore } from '@/stores/index'
+import { allStore } from '@/stores'
 
 export const useUserStore = defineStore('userStore', {
   state: () => {
@@ -83,7 +83,7 @@ export const useUserStore = defineStore('userStore', {
       this.fetchAuthUser(result.uid)
     },
     async signOut() {
-      await firebase.auth().signOut
+      await firebase.auth().signOut()
       this.authId = null
     },
     async createUser({
