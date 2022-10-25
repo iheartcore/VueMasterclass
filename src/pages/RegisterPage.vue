@@ -2,6 +2,7 @@
   import { allStore } from '@/stores'
 
   export default {
+    emits: ['ready'],
     data() {
       return {
         formData: {

@@ -12,6 +12,7 @@
         default: null,
       },
     },
+    emits: ['dirty', 'clean'],
     data() {
       return {
         formData: { ...this.thread },
@@ -22,8 +23,24 @@
         return !!this.formData.title
       },
     },
+    watch: {
+      formData: {
+        handler() {
+          if (
+            this.formData.title !== this.thread?.title ||
+            this.formData.text !== this.thread?.text
+          ) {
+            this.$emit('dirty')
+          } else {
+            this.$emit('clean')
+          }
+        },
+        deep: true,
+      },
+    },
     methods: {
       async save() {
+        this.$emit('clean')
         let thread = null
         if (this.thread?.id) {
           thread = await allStore

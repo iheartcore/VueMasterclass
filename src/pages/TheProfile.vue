@@ -3,6 +3,11 @@
   import { allStore } from '@/stores'
 
   export default {
+    beforeRouteEnter(to, from) {
+      if (!allStore.userStore().authId) {
+        return { name: 'Home' }
+      }
+    },
     props: {
       edit: {
         type: Boolean,
