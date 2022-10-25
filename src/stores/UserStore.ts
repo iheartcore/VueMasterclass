@@ -147,7 +147,7 @@ export const useUserStore = defineStore('userStore', {
             }
             this.authId = userId
             this.setUser({ user })
-            allStore.addUnsubscribe(unsubscribe)
+            allStore.unsubscribeAuthUserSnapshot(unsubscribe)
             resolve(user)
           })
       })
