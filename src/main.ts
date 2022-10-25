@@ -23,12 +23,6 @@ const firebaseConfig = {
 }
 
 firebase.initializeApp(firebaseConfig)
-firebase.auth().onAuthStateChanged((user) => {
-  allStore.unsubscribeAuthUserSnapshot()
-  if (user) {
-    allStore.userStore().fetchAuthUser()
-  }
-})
 
 // TODO: Remove when vuejs is upgraded to >=3.3
 app.config.unwrapInjectedRef = true

@@ -17,9 +17,9 @@ const router = createRouter({
   },
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach(async (to, from) => {
+  await allStore.userStore().initAuthentication()
   allStore.unsubscribeAllSnapshots()
-
   if (to.meta.requiresAuth && !allStore.userStore().authId) {
     return { name: 'Home' }
   }

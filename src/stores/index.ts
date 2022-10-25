@@ -12,6 +12,7 @@ export const allStore = {
   userStore: useUserStore,
   unsubscribes: [],
   authUserUnsubscribe: null,
+  authObserverUnsubscribe: null,
   addUnsubscribe(unsubscribe) {
     this.unsubscribes.push(unsubscribe)
   },
@@ -30,6 +31,9 @@ export const allStore = {
   },
   setAuthUserUnsubscribe(unsubscribe) {
     this.authUserUnsubscribe = unsubscribe
+  },
+  setAuthObserverUnsubscribe(unsubscribe) {
+    this.authObserverUnsubscribe = unsubscribe
   },
 }
 

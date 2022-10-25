@@ -32,6 +32,22 @@ export const useUserStore = defineStore('userStore', {
     },
   },
   actions: {
+    initAuthentication() {
+      if (allStore.authObserverUnsubscribe) {
+        return
+      }
+      return new Promise((resolve) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
+          console.log('The user has changed')
+          allStore.unsubscribeAuthUserSnapshot()
+          if (user) {
+            await this.fetchAuthUser()
+          }
+          resolve(user)
+        })
+        allStore.setAuthObserverUnsubscribe(unsubscribe)
+      })
+    },
     async signInWithGoogle() {
       const provider = new firebase.auth.GoogleAuthProvider()
       const response = await firebase.auth().signInWithPopup(provider)
