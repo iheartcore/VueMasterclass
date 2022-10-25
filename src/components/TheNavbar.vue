@@ -1,5 +1,5 @@
 <script>
-  import { allStore } from '@/stores'
+  import { allStore } from '@/stores/index'
   import { mapState } from 'pinia'
 
   export default {
@@ -7,6 +7,11 @@
       ...mapState(allStore.userStore, {
         authUser: (store) => store.authUser,
       }),
+    },
+    methods: {
+      signOut() {
+        allStore.userStore().signOut()
+      },
     },
   }
 </script>
@@ -55,6 +60,15 @@
               <li class="dropdown-menu-item"><a href="#">Log out</a></li>
             </ul>
           </div>
+        </li>
+        <li v-if="authUser" class="navbar-item">
+          <a @click.prevent="signOut">Sign Out</a>
+        </li>
+        <li v-if="!authUser" class="navbar-item">
+          <router-link :to="{ name: 'SignIn' }">Sign In</router-link>
+        </li>
+        <li v-if="!authUser" class="navbar-item">
+          <router-link :to="{ name: 'Register' }">Register</router-link>
         </li>
       </ul>
 

@@ -7,6 +7,7 @@ import ThreadCreate from '@/pages/ThreadCreate.vue'
 import ThreadEdit from '@/pages/ThreadEdit.vue'
 import NotFound from '@/pages/NotFound.vue'
 import Register from '@/pages/RegisterPage.vue'
+import SignIn from '@/pages/SignIn.vue'
 
 const routes = [
   {
@@ -68,6 +69,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register,
+  },
+  {
+    path: '/signin',
+    name: 'SignIn',
+    component: SignIn,
   },
   {
     path: '/:pathMatch(.*)*',
