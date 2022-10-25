@@ -12,9 +12,7 @@ export const useUserStore = defineStore('userStore', {
   },
   getters: {
     authUser(state) {
-      console.log(state.users, state.authId)
       const user = findById({ resources: state.users, id: state.authId })
-      console.log(user)
 
       if (!user) return null
 
@@ -34,6 +32,24 @@ export const useUserStore = defineStore('userStore', {
     },
   },
   actions: {
+    async signInWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider()
+      const response = await firebase.auth().signInWithPopup(provider)
+      const user = response.user
+      const userRef = firebase.firestore().collection('users').doc(user.uid)
+      const userDoc = await userRef.get()
+
+      if (!userDoc.exists) {
+        console.log(user)
+        return this.createUser({
+          email: user.email,
+          id: user.uid,
+          name: user.displayName,
+          username: user.email,
+          avatar: user.photoURL,
+        })
+      }
+    },
     async registerUserWithEmailAndPassword({
       email,
       password,

@@ -25,6 +25,14 @@
           alert(e.message)
         }
       },
+      async signInWithGoogle() {
+        try {
+          await allStore.userStore().signInWithGoogle()
+          this.$router.push('/')
+        } catch (e) {
+          alert(e.message)
+        }
+      },
     },
   }
 </script>
@@ -66,7 +74,7 @@
       </form>
 
       <div class="push-top text-center">
-        <button class="btn-red btn-xsmall">
+        <button @click="signInWithGoogle" class="btn-red btn-xsmall">
           <i class="fa fa-google fa-btn"></i>Sign in with Google
         </button>
       </div>

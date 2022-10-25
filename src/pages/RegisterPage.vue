@@ -26,6 +26,10 @@
           avatar: this.formData.avatar,
         })
       },
+      async registerWithGoogle() {
+        await allStore.userStore().signInWithGoogle()
+        this.$router.push('/')
+      },
     },
   }
 </script>
@@ -91,7 +95,7 @@
         </div>
       </form>
       <div class="text-center push-top">
-        <button class="btn-red btn-xsmall">
+        <button @click="registerWithGoogle" class="btn-red btn-xsmall">
           <i class="fa fa-google fa-btn"></i>Sign up with Google
         </button>
       </div>
