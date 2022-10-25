@@ -8,6 +8,7 @@ export const findById = ({
   if (!resources) {
     return null
   }
+
   return resources.find((resource) => resource.id === id)
 }
 

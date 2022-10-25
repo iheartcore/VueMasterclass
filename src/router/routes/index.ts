@@ -9,6 +9,7 @@ import NotFound from '@/pages/NotFound.vue'
 import Register from '@/pages/RegisterPage.vue'
 import SignIn from '@/pages/SignIn.vue'
 import { allStore } from '@/stores'
+import { findById } from '@/helpers'
 
 const routes = [
   {
@@ -53,6 +54,24 @@ const routes = [
     name: 'ThreadShow',
     component: ThreadShow,
     props: true,
+    async beforeEnter(to, from, next) {
+      await allStore.threadStore().fetchThread({ id: to.params.id })
+      const threadExists = findById({
+        resources: allStore.threadStore().threads,
+        id: to.params.id,
+      })
+
+      if (threadExists) {
+        return next()
+      } else {
+        next({
+          name: 'NotFound',
+          params: { pathMatch: to.path.substring(1).split('/') },
+          query: to.query,
+          hash: to.hash,
+        })
+      }
+    },
   },
   {
     path: '/forum/:forumId/thread/create/',

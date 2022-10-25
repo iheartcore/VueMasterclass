@@ -38,7 +38,6 @@ export const useUserStore = defineStore('userStore', {
       }
       return new Promise((resolve) => {
         const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
-          console.log('The user has changed')
           allStore.unsubscribeAuthUserSnapshot()
           if (user) {
             await this.fetchAuthUser()

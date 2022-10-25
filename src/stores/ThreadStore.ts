@@ -90,13 +90,15 @@ export const useThreadStore = defineStore('ThreadStore', {
           .collection('threads')
           .doc(id)
           .onSnapshot((doc) => {
-            const thread = {
-              ...doc.data(),
-              id: doc.id,
+            if (doc.exists) {
+              const thread = { ...doc.data(), id: doc.id }
+              this.setThread({ thread })
+              resolve(thread)
+            } else {
+              resolve(null)
             }
-            this.setThread({ thread })
+
             allStore.addUnsubscribe(unsubscribe)
-            resolve(thread)
           })
       })
     },
