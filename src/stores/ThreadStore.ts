@@ -35,7 +35,13 @@ export const useThreadStore = defineStore('ThreadStore', {
       thread.contributors = thread?.contributors || []
       addIfNotExists(thread.contributors, userId)
     },
-    async createThread({ thread, forumId }: { thread: any; forumId: any }) {
+    async createThread({
+      thread,
+      forumId,
+    }: {
+      thread: object
+      forumId: string
+    }) {
       const postText = thread.text
       thread.forumId = forumId
       thread.userId = useUserStore().authId
@@ -80,7 +86,7 @@ export const useThreadStore = defineStore('ThreadStore', {
 
       return findById({ resources: this.threads, id: threadRef.id })
     },
-    setThread({ thread }: { thread: any }) {
+    setThread({ thread }: { thread: object }) {
       upsert({ resources: this.threads, newResource: docToResource(thread) })
     },
     fetchThread({ id }: { id: string }) {
@@ -105,7 +111,7 @@ export const useThreadStore = defineStore('ThreadStore', {
     fetchThreads({ ids }: { ids: Array<string> }) {
       return Promise.all(ids.map((id) => this.fetchThread({ id })))
     },
-    async updateThread({ thread }: { thread: any }) {
+    async updateThread({ thread }: { thread: object }) {
       const threadObj = findById({ resources: this.threads, id: thread.id })
       const post = findById({
         resources: usePostStore().posts,

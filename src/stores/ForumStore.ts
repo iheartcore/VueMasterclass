@@ -14,14 +14,14 @@ export const useForumStore = defineStore('forumStore', {
       threadId,
       forumId,
     }: {
-      threadId: any
-      forumId: any
+      threadId: string
+      forumId: string
     }) {
       const forum = findById({ resources: this.forums, id: forumId })
       forum.threads = forum?.threads || []
       addIfNotExists(forum.threads, threadId)
     },
-    setForum({ forum }: { forum: any }) {
+    setForum({ forum }: { forum: object }) {
       upsert({ resources: this.forums, newResource: docToResource(forum) })
     },
     fetchForum({ id }: { id: string }) {

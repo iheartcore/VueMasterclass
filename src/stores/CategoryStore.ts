@@ -10,7 +10,7 @@ export const useCategoryStore = defineStore('categoryStore', {
     }
   },
   actions: {
-    setCategory({ category }: { category: any }) {
+    setCategory({ category }: { category: object }) {
       upsert({
         resources: this.categories,
         newResource: docToResource(category),

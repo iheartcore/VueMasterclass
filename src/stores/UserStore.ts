@@ -90,7 +90,7 @@ export const useUserStore = defineStore('userStore', {
       })
       await allStore.userStore().fetchAuthUser()
     },
-    async signInWithEmailAndPassword({ data }: { data: any }) {
+    async signInWithEmailAndPassword({ data }: { data: object }) {
       const result = await firebase
         .auth()
         .signInWithEmailAndPassword(data.email, data.password)
@@ -134,13 +134,19 @@ export const useUserStore = defineStore('userStore', {
 
       return docToResource(newUser)
     },
-    saveUser({ activeUser }: { activeUser: any }) {
+    saveUser({ activeUser }: { activeUser: object }) {
       upsert({ resources: this.users, newResource: docToResource(activeUser) })
     },
-    setUser({ user }: { user: any }) {
+    setUser({ user }: { user: object }) {
       upsert({ resources: this.users, newResource: docToResource(user) })
     },
-    appendThreadToUser({ threadId, userId }: { threadId: any; userId: any }) {
+    appendThreadToUser({
+      threadId,
+      userId,
+    }: {
+      threadId: string
+      userId: string
+    }) {
       const user = findById({ resources: this.users, id: userId })
       if (user) {
         user.threads = user?.threads || []

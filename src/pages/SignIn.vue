@@ -40,14 +40,14 @@
 <template>
   <div class="flex-grid justify-center">
     <div class="col-2">
-      <form @submit.prevent="signIn" class="card card-form">
+      <form class="card card-form" @submit.prevent="signIn">
         <h1 class="text-center">Login</h1>
 
         <div class="form-group">
           <label for="email">Email</label>
           <input
-            v-model="formData.email"
             id="email"
+            v-model="formData.email"
             type="text"
             class="form-input"
           />
@@ -55,8 +55,8 @@
         <div class="form-group">
           <label for="password">Password</label>
           <input
-            v-model="formData.password"
             id="password"
+            v-model="formData.password"
             type="password"
             class="form-input"
           />
@@ -74,7 +74,7 @@
       </form>
 
       <div class="push-top text-center">
-        <button @click="signInWithGoogle" class="btn-red btn-xsmall">
+        <button class="btn-red btn-xsmall" @click="signInWithGoogle">
           <i class="fa fa-google fa-btn"></i>Sign in with Google
         </button>
       </div>

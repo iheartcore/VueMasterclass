@@ -5,7 +5,6 @@ import App from '@/App.vue'
 import router from '@/router'
 import utils from '@/plugins/utils'
 import FontAwesome from '@/plugins/FontAwesome'
-import { allStore } from '@/stores/index'
 
 import './styles/app/style.scss'
 

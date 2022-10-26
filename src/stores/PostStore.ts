@@ -12,7 +12,7 @@ export const usePostStore = defineStore('PostStore', {
     }
   },
   actions: {
-    async createPost({ post }: { post: any }) {
+    async createPost({ post }: { post: object }) {
       post.userId = useUserStore().authId
       post.publishedAt = firebase.firestore.FieldValue.serverTimestamp()
 
@@ -68,7 +68,7 @@ export const usePostStore = defineStore('PostStore', {
       const updatedPost = await postRef.get()
       this.setPost({ post: updatedPost })
     },
-    setPost({ post }: { post: any }) {
+    setPost({ post }: { post: object }) {
       upsert({ resources: this.posts, newResource: docToResource(post) })
     },
     fetchPost({ id }: { id: string }) {
