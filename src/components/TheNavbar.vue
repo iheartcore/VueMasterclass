@@ -28,7 +28,6 @@
     </router-link>
 
     <div class="btn-hamburger">
-      <!-- use .btn-humburger-active to open the menu -->
       <div class="top bar"></div>
       <div class="middle bar"></div>
       <div class="bottom bar"></div>

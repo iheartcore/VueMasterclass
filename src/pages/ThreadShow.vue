@@ -19,6 +19,9 @@
       ...mapState(allStore.postStore, {
         posts: (store) => store.posts,
       }),
+      ...mapState(allStore.userStore, {
+        authUser: (store) => store.authUser,
+      }),
       thread() {
         return findById({ resources: this.threads, id: this.id })
       },
@@ -71,6 +74,7 @@
   <div v-if="asyncDataStatus_ready" class="col-large push-top">
     <h1>{{ thread.title }}</h1>
     <router-link
+      v-if="thread.userId === authUser?.id"
       :to="{ name: 'ThreadEdit', params: { id: id } }"
       class="btn-green btn-small"
     >
@@ -92,6 +96,17 @@
       </span>
     </p>
     <PostList :posts="threadPosts" />
-    <PostEditor @save="addPost" />
+    <PostEditor v-if="authUser" @save="addPost" />
+    <div v-else class="text-center" style="margin-bottom: 50px">
+      <router-link :to="{ name: 'SignIn', query: { redirectTo: $route.path } }"
+        >Sign In</router-link
+      >
+      or
+      <router-link
+        :to="{ name: 'Register', query: { redirectTo: $route.path } }"
+        >Register</router-link
+      >
+      to reply.
+    </div>
   </div>
 </template>
