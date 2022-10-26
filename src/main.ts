@@ -6,6 +6,7 @@ import router from '@/router'
 import utils from '@/plugins/utils'
 import FontAwesome from '@/plugins/FontAwesome'
 import ClickOutsideDirective from '@/plugins/ClickOutsideDirective'
+import PageScrollDirective from '@/plugins/PageScrollDirective'
 
 import './styles/app/style.scss'
 
@@ -31,5 +32,6 @@ app
   .use(utils)
   .use(FontAwesome)
   .use(ClickOutsideDirective)
+  .use(PageScrollDirective)
   .use(router)
   .mount('#app')

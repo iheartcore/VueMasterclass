@@ -32,6 +32,7 @@
   <header
     id="header"
     v-click-outside="() => (mobileNavMenu = false)"
+    v-page-scroll="() => (mobileNavMenu = false)"
     class="header"
   >
     <router-link :to="{ name: 'Home' }" class="logo">
