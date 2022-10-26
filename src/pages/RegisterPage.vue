@@ -96,7 +96,7 @@
         </div>
       </form>
       <div class="text-center push-top">
-        <button @click="registerWithGoogle" class="btn-red btn-xsmall">
+        <button class="btn-red btn-xsmall" @click="registerWithGoogle">
           <i class="fa fa-google fa-btn"></i>Sign up with Google
         </button>
       </div>
