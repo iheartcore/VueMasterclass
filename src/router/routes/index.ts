@@ -91,14 +91,14 @@ const routes = [
     component: Register,
   },
   {
-    path: '/signin',
+    path: '/login',
     name: 'SignIn',
     component: SignIn,
   },
   {
     path: '/logout',
     name: 'SignOut',
-    async beforeEnter(to, from) {
+    async beforeEnter() {
       await allStore.userStore().signOut()
       return { name: 'Home' }
     },
