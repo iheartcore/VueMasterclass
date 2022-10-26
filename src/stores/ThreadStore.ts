@@ -6,6 +6,7 @@ import { useForumStore } from '@/stores/ForumStore'
 import { allStore } from '@/stores/'
 import { addIfNotExists, docToResource, findById, upsert } from '@/helpers'
 import firebase from 'firebase'
+import chunk from 'lodash/chunk'
 
 export const useThreadStore = defineStore('ThreadStore', {
   state: () => {
@@ -138,6 +139,16 @@ export const useThreadStore = defineStore('ThreadStore', {
       usePostStore().setPost({ post: newPost })
 
       return docToResource(newThread)
+    },
+    fetchThreadsByPage(ids, page, perPage = 10) {
+      this.clearThreads()
+      const chunks = chunk(ids, perPage)
+      const limitedIds = chunks[page - 1]
+
+      return this.fetchThreads({ ids: limitedIds })
+    },
+    clearThreads() {
+      this.threads = []
     },
   },
 })

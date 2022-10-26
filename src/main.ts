@@ -7,6 +7,8 @@ import utils from '@/plugins/utils'
 import FontAwesome from '@/plugins/FontAwesome'
 import ClickOutsideDirective from '@/plugins/ClickOutsideDirective'
 import PageScrollDirective from '@/plugins/PageScrollDirective'
+import VueAwesomePaginate from 'vue-awesome-paginate'
+import 'vue-awesome-paginate/dist/style.css'
 
 import './styles/app/style.scss'
 
@@ -33,5 +35,6 @@ app
   .use(FontAwesome)
   .use(ClickOutsideDirective)
   .use(PageScrollDirective)
+  .use(VueAwesomePaginate)
   .use(router)
   .mount('#app')

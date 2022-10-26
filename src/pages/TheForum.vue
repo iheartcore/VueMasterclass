@@ -13,6 +13,12 @@
       },
     },
     emits: ['ready'],
+    data() {
+      return {
+        page: 1,
+        perPage: 10,
+      }
+    },
     computed: {
       ...mapState(allStore.forumStore, {
         forums: (store) => store.forums,
@@ -28,9 +34,11 @@
     },
     async created() {
       const forum = await allStore.forumStore().fetchForum({ id: this.id })
-      const threads = await allStore
-        .threadStore()
-        .fetchThreads({ ids: forum.threads })
+      const threads = await allStore.threadStore().fetchThreadsByPage({
+        ids: forum.threads,
+        page: this.page,
+        perPage: this.perPage,
+      })
 
       await allStore
         .userStore()
@@ -38,6 +46,19 @@
 
       this.asyncDataStatus_fetched()
       this.$emit('ready')
+    },
+    methods: {
+      async fetchThreads() {
+        this.page++
+        const threads = await allStore.threadStore().fetchThreadsByPage({
+          ids: this.forum.threads,
+          page: this.page,
+          perPage: this.perPage,
+        })
+        await allStore
+          .userStore()
+          .fetchUsers({ ids: threads.map((thread) => thread.userId) })
+      },
     },
   }
 </script>
@@ -58,6 +79,11 @@
     </div>
   </div>
   <div class="col-full push-top">
-    <ThreadList :threads="threads" />
+    <ThreadList
+      :threads="threads"
+      :page="page"
+      :per-page="perPage"
+      @fetch-threads="fetchThreads"
+    />
   </div>
 </template>
