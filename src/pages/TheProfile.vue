@@ -16,9 +16,13 @@
       ...mapState(allStore.authStore, {
         user: (store) => store.authUser,
       }),
+      lastPostFetched() {
+        if (this.user.posts.length === 0) return null
+        return this.user.posts[this.user.posts.length - 1]
+      },
     },
     async created() {
-      await allStore.authStore().fetchAuthUsersPosts()
+      await allStore.authStore().fetchAuthUsersPosts(this.lastPostFetched)
       this.asyncDataStatus_fetched()
     },
   }

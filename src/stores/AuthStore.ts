@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('authStore', {
         get posts() {
           const result = allStore
             .postStore()
-            .posts.find((post) => post.userId === state.authId)
+            .posts.filter((post) => post.userId === state.authId)
 
           if (Array.isArray(result)) {
             return result
@@ -134,12 +134,24 @@ export const useAuthStore = defineStore('authStore', {
           })
       })
     },
-    async fetchAuthUsersPosts() {
-      const posts = await firebase
+    async fetchAuthUsersPosts(startAfter) {
+      let query = await firebase
         .firestore()
         .collection('posts')
         .where('userId', '==', allStore.authStore().authId)
-        .get()
+        .orderBy('publishedAt', 'desc')
+        .limit(10)
+
+      if (startAfter) {
+        const doc = await firebase
+          .firestore()
+          .collection('posts')
+          .doc(startAfter.id)
+
+        query = query.startAfter(doc)
+      }
+
+      const posts = await query.get()
 
       posts.forEach((element) => {
         allStore.postStore().setPost({ post: element })
