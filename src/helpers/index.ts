@@ -16,8 +16,8 @@ export const upsert = ({
   resources,
   newResource,
 }: {
-  resources: Array<any>
-  newResource: any
+  resources: Array<object>
+  newResource: object
 }) => {
   const index = resources.findIndex(
     (resource) => resource.id === newResource.id
