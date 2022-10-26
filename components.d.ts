@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AppDate: typeof import('./src/components/core/AppDate.vue')['default']
+    AppInfiniteScroll: typeof import('./src/components/core/AppInfiniteScroll.vue')['default']
     AppLoadingIndicator: typeof import('./src/components/core/AppLoadingIndicator.vue')['default']
     CategoryList: typeof import('./src/components/CategoryList.vue')['default']
     CategoryListItem: typeof import('./src/components/CategoryListItem.vue')['default']

@@ -22,8 +22,15 @@
       },
     },
     async created() {
-      await allStore.authStore().fetchAuthUsersPosts(this.lastPostFetched)
+      await this.fetchUserPosts()
       this.asyncDataStatus_fetched()
+    },
+    methods: {
+      fetchUserPosts() {
+        return allStore
+          .authStore()
+          .fetchAuthUsersPosts({ startAfter: this.lastPostFetched })
+      },
     },
   }
 </script>
@@ -49,6 +56,10 @@
         <hr />
 
         <PostList v-if="user.posts" :posts="user.posts" />
+        <AppInfiniteScroll
+          :done="user.posts.length === user.postsCount"
+          @load="fetchUserPosts"
+        />
       </div>
     </div>
   </div>
