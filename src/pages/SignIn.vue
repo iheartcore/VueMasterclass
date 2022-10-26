@@ -20,7 +20,7 @@
           await allStore
             .userStore()
             .signInWithEmailAndPassword({ data: this.formData })
-          this.$router.push('/')
+          this.successRedirect()
         } catch (e) {
           alert(e.message)
         }
@@ -28,10 +28,15 @@
       async signInWithGoogle() {
         try {
           await allStore.userStore().signInWithGoogle()
-          this.$router.push('/')
+          this.successRedirect()
         } catch (e) {
           alert(e.message)
         }
+      },
+      successRedirect() {
+        const redirectTo = this.$route.query.redirectTo || { name: 'Home' }
+
+        this.$router.push(redirectTo)
       },
     },
   }
