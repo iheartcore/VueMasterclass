@@ -92,11 +92,13 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register,
+    meta: { requiresGuest: true },
   },
   {
     path: '/login',
     name: 'SignIn',
     component: SignIn,
+    meta: { requiresGuest: true },
   },
   {
     path: '/logout',
@@ -105,6 +107,7 @@ const routes = [
       await allStore.userStore().signOut()
       return { name: 'Home' }
     },
+    meta: { requiresGuest: true },
   },
   {
     path: '/:pathMatch(.*)*',

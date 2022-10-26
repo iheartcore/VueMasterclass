@@ -21,6 +21,9 @@ router.beforeEach(async (to) => {
   await allStore.userStore().initAuthentication()
   allStore.unsubscribeAllSnapshots()
   if (to.meta.requiresAuth && !allStore.userStore().authId) {
+    return { name: 'SignIn' }
+  }
+  if (to.meta.requiresGuest && allStore.userStore().authId) {
     return { name: 'Home' }
   }
 })
