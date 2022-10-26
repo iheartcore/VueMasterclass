@@ -5,6 +5,7 @@ import App from '@/App.vue'
 import router from '@/router'
 import utils from '@/plugins/utils'
 import FontAwesome from '@/plugins/FontAwesome'
+import ClickOutsideDirective from '@/plugins/ClickOutsideDirective'
 
 import './styles/app/style.scss'
 
@@ -26,4 +27,9 @@ firebase.initializeApp(firebaseConfig)
 // TODO: Remove when vuejs is upgraded to >=3.3
 app.config.unwrapInjectedRef = true
 
-app.use(utils).use(FontAwesome).use(router).mount('#app')
+app
+  .use(utils)
+  .use(FontAwesome)
+  .use(ClickOutsideDirective)
+  .use(router)
+  .mount('#app')
