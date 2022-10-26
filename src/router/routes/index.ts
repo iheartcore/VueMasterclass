@@ -104,7 +104,7 @@ const routes = [
     path: '/logout',
     name: 'SignOut',
     async beforeEnter() {
-      await allStore.userStore().signOut()
+      await allStore.authStore().signOut()
       return { name: 'Home' }
     },
     meta: { requiresGuest: true },

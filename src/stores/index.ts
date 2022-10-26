@@ -3,6 +3,7 @@ import { usePostStore } from '@/stores/PostStore'
 import { useForumStore } from '@/stores/ForumStore'
 import { useCategoryStore } from '@/stores/CategoryStore'
 import { useUserStore } from '@/stores/UserStore'
+import { useAuthStore } from '@/stores/AuthStore'
 
 export const allStore = {
   threadStore: useThreadStore,
@@ -10,6 +11,7 @@ export const allStore = {
   forumStore: useForumStore,
   categoryStore: useCategoryStore,
   userStore: useUserStore,
+  authStore: useAuthStore,
   unsubscribes: [],
   authUserUnsubscribe: null,
   authObserverUnsubscribe: null,

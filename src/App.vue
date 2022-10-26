@@ -8,7 +8,7 @@
       }
     },
     created() {
-      allStore.userStore().fetchAuthUser()
+      allStore.authStore().fetchAuthUser()
       this.$router.beforeEach(() => {
         this.showPage = false
       })
@@ -24,7 +24,7 @@
 <template>
   <TheNavbar />
   <div class="container">
-    <router-view v-show="showPage" @ready="onPageReady" :key="$route.path" />
+    <router-view v-show="showPage" :key="$route.path" @ready="onPageReady" />
     <AppLoadingIndicator v-show="!showPage" />
   </div>
 </template>

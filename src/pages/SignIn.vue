@@ -18,7 +18,7 @@
       async signIn() {
         try {
           await allStore
-            .userStore()
+            .authStore()
             .signInWithEmailAndPassword({ data: this.formData })
           this.successRedirect()
         } catch (e) {
@@ -27,7 +27,7 @@
       },
       async signInWithGoogle() {
         try {
-          await allStore.userStore().signInWithGoogle()
+          await allStore.authStore().signInWithGoogle()
           this.successRedirect()
         } catch (e) {
           alert(e.message)

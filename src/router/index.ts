@@ -18,12 +18,12 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  await allStore.userStore().initAuthentication()
+  await allStore.authStore().initAuthentication()
   allStore.unsubscribeAllSnapshots()
-  if (to.meta.requiresAuth && !allStore.userStore().authId) {
+  if (to.meta.requiresAuth && !allStore.authStore().authId) {
     return { name: 'SignIn', query: { redirectTo: to.path } }
   }
-  if (to.meta.requiresGuest && allStore.userStore().authId) {
+  if (to.meta.requiresGuest && allStore.authStore().authId) {
     return { name: 'Home' }
   }
 })

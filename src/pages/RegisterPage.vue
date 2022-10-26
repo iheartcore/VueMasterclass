@@ -19,7 +19,7 @@
     },
     methods: {
       async register() {
-        await allStore.userStore().registerUserWithEmailAndPassword({
+        await allStore.authStore().registerUserWithEmailAndPassword({
           email: this.formData.email,
           password: this.formData.password,
           name: this.formData.name,
@@ -28,7 +28,7 @@
         })
       },
       async registerWithGoogle() {
-        await allStore.userStore().signInWithGoogle()
+        await allStore.authStore().signInWithGoogle()
         this.$router.push('/')
       },
     },

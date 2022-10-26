@@ -9,13 +9,13 @@
       }
     },
     computed: {
-      ...mapState(allStore.userStore, {
+      ...mapState(allStore.authStore, {
         authUser: (store) => store.authUser,
       }),
     },
     methods: {
       signOut() {
-        allStore.userStore().signOut()
+        allStore.authStore().signOut()
       },
     },
   }

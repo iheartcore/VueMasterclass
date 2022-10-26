@@ -91,16 +91,5 @@ export const usePostStore = defineStore('PostStore', {
     fetchPosts({ ids }: { ids: Array<string> }) {
       return Promise.all(ids.map((id) => this.fetchPost({ id })))
     },
-    async fetchAuthUsersPosts() {
-      const posts = await firebase
-        .firestore()
-        .collection('posts')
-        .where('userId', '==', allStore.userStore().authId)
-        .get()
-
-      posts.forEach((element) => {
-        this.setPost({ post: element })
-      })
-    },
   },
 })

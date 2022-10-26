@@ -7,111 +7,9 @@ export const useUserStore = defineStore('userStore', {
   state: () => {
     return {
       users: [],
-      authId: null,
     }
   },
-  getters: {
-    authUser(state) {
-      const user = findById({ resources: state.users, id: state.authId })
-
-      if (!user) return null
-
-      return {
-        ...user,
-        get posts() {
-          const result = allStore
-            .postStore()
-            .posts.find((post) => post.userId === state.authId)
-
-          if (Array.isArray(result)) {
-            return result
-          } else {
-            return [result]
-          }
-        },
-        get postsCount() {
-          return user.postsCount || 0
-        },
-        get threadsCount() {
-          return user.threads?.length || 0
-        },
-      }
-    },
-    getUserById: (state) => {
-      return (userId: { userId: string }) =>
-        findById({ resources: state.users, id: userId })
-    },
-  },
   actions: {
-    initAuthentication() {
-      if (allStore.authObserverUnsubscribe) {
-        return
-      }
-      return new Promise((resolve) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
-          allStore.unsubscribeAuthUserSnapshot()
-          if (user) {
-            await this.fetchAuthUser()
-          }
-          resolve(user)
-        })
-        allStore.setAuthObserverUnsubscribe(unsubscribe)
-      })
-    },
-    async signInWithGoogle() {
-      const provider = new firebase.auth.GoogleAuthProvider()
-      const response = await firebase.auth().signInWithPopup(provider)
-      const user = response.user
-      const userRef = firebase.firestore().collection('users').doc(user.uid)
-      const userDoc = await userRef.get()
-
-      if (!userDoc.exists) {
-        return this.createUser({
-          email: user.email,
-          id: user.uid,
-          name: user.displayName,
-          username: user.email,
-          avatar: user.photoURL,
-        })
-      }
-    },
-    async registerUserWithEmailAndPassword({
-      email,
-      password,
-      name,
-      username,
-      avatar = null,
-    }: {
-      email: string
-      password: string
-      name: string
-      username: string
-      avatar: string
-    }) {
-      const result = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-
-      await allStore.userStore().createUser({
-        email: email,
-        name: name,
-        username: username,
-        avatar: avatar,
-        id: result.user.uid,
-      })
-      await allStore.userStore().fetchAuthUser()
-    },
-    async signInWithEmailAndPassword({ data }: { data: object }) {
-      const result = await firebase
-        .auth()
-        .signInWithEmailAndPassword(data.email, data.password)
-
-      this.fetchAuthUser(result.uid)
-    },
-    async signOut() {
-      await firebase.auth().signOut()
-      this.authId = null
-    },
     async createUser({
       email,
       name,
@@ -179,26 +77,6 @@ export const useUserStore = defineStore('userStore', {
         user.threads = user?.threads || []
         addIfNotExists(user.threads, threadId)
       }
-    },
-    fetchAuthUser() {
-      const userId = firebase.auth().currentUser?.uid
-      if (!userId) return
-      return new Promise((resolve) => {
-        const unsubscribe = firebase
-          .firestore()
-          .collection('users')
-          .doc(userId)
-          .onSnapshot((doc) => {
-            const user = {
-              ...doc.data(),
-              id: doc.id,
-            }
-            this.authId = userId
-            this.setUser({ user })
-            allStore.unsubscribeAuthUserSnapshot(unsubscribe)
-            resolve(user)
-          })
-      })
     },
     fetchUser({ id }: { id: string }) {
       return new Promise((resolve) => {

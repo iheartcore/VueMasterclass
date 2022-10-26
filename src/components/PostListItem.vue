@@ -20,7 +20,7 @@
         users: (store) => store.$state.users,
       }),
       userId() {
-        return allStore.userStore().authId
+        return allStore.authStore().authId
       },
     },
     created() {

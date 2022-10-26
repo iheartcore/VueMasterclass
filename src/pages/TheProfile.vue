@@ -13,12 +13,12 @@
     },
     emits: ['ready'],
     computed: {
-      ...mapState(allStore.userStore, {
+      ...mapState(allStore.authStore, {
         user: (store) => store.authUser,
       }),
     },
     async created() {
-      await allStore.postStore().fetchAuthUsersPosts()
+      await allStore.authStore().fetchAuthUsersPosts()
       this.asyncDataStatus_fetched()
     },
   }

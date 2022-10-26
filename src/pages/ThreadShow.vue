@@ -19,7 +19,7 @@
       ...mapState(allStore.postStore, {
         posts: (store) => store.posts,
       }),
-      ...mapState(allStore.userStore, {
+      ...mapState(allStore.authStore, {
         authUser: (store) => store.authUser,
       }),
       thread() {
