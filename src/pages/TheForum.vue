@@ -12,6 +12,7 @@
         required: true,
       },
     },
+    emits: ['ready'],
     computed: {
       ...mapState(allStore.forumStore, {
         forums: (store) => store.forums,
@@ -36,6 +37,7 @@
         .fetchUsers({ ids: threads.map((thread) => thread.userId) })
 
       this.asyncDataStatus_fetched()
+      this.$emit('ready')
     },
   }
 </script>
