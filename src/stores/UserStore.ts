@@ -19,7 +19,15 @@ export const useUserStore = defineStore('userStore', {
       return {
         ...user,
         get posts() {
-          return allStore.postStore().posts
+          const result = allStore
+            .postStore()
+            .posts.find((post) => post.userId === state.authId)
+
+          if (Array.isArray(result)) {
+            return result
+          } else {
+            return [result]
+          }
         },
         get postsCount() {
           return user.postsCount || 0
@@ -136,6 +144,22 @@ export const useUserStore = defineStore('userStore', {
       upsert({ resources: this.users, newResource: docToResource(newUser) })
 
       return docToResource(newUser)
+    },
+    async updateUser({ user }: { user: object }) {
+      const updates = {
+        avatar: user.avatar || null,
+        username: user.username || null,
+        name: user.name || null,
+        bio: user.bio || null,
+        website: user.website || null,
+        email: user.email || null,
+        location: user.location || null,
+      }
+
+      const userRef = firebase.firestore().collection('users').doc(user.id)
+      await userRef.update(updates)
+
+      setUser(user)
     },
     saveUser({ activeUser }: { activeUser: object }) {
       upsert({ resources: this.users, newResource: docToResource(activeUser) })

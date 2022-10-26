@@ -24,7 +24,9 @@
       },
     },
     created() {
-      allStore.postStore().fetchPost({ id: this.post.id })
+      if (this.post) {
+        allStore.postStore().fetchPost({ id: this.post.id })
+      }
     },
     methods: {
       userById(userId) {
@@ -60,8 +62,8 @@
 </script>
 
 <template>
-  <div class="post">
-    <div v-if="userById(post.userId)" class="user-info">
+  <div v-if="userById(post?.userId)" class="post">
+    <div class="user-info">
       <a href="#" class="user-name">{{ userById(post.userId).name }}</a>
       <a href="#">
         <img class="avatar-large" :src="userById(post.userId).avatar" alt="" />

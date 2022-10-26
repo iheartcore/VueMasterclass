@@ -24,7 +24,7 @@
 <template>
   <TheNavbar />
   <div class="container">
-    <router-view v-show="showPage" @ready="onPageReady" />
+    <router-view v-show="showPage" @ready="onPageReady" :key="$route.path" />
     <AppLoadingIndicator v-show="!showPage" />
   </div>
 </template>

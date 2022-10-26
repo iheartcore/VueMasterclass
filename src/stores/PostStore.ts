@@ -98,10 +98,7 @@ export const usePostStore = defineStore('PostStore', {
         .where('userId', '==', allStore.userStore().authId)
         .get()
 
-      console.log(posts)
-
       posts.forEach((element) => {
-        console.log(element)
         this.setPost({ post: element })
       })
     },
