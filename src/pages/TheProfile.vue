@@ -1,8 +1,10 @@
 <script>
   import { mapState } from 'pinia'
   import { allStore } from '@/stores'
+  import asyncDataStatus from '@/mixins/asyncDataStatus'
 
   export default {
+    mixins: [asyncDataStatus],
     props: {
       edit: {
         type: Boolean,
@@ -15,8 +17,9 @@
         user: (store) => store.authUser,
       }),
     },
-    created() {
-      this.$emit('ready')
+    async created() {
+      await allStore.postStore().fetchAuthUsersPosts()
+      this.asyncDataStatus_fetched()
     },
   }
 </script>
@@ -42,48 +45,6 @@
         <hr />
 
         <PostList v-if="user.posts" :posts="user.posts" />
-
-        <div class="activity-list">
-          <div class="activity">
-            <div class="activity-header">
-              <img
-                src="http://i.imgur.com/s0AzOkO.png"
-                alt=""
-                class="hide-mobile avatar-small"
-              />
-              <p class="title">
-                Wasabi vs horseraddish?
-                <span>Joker replied to Robin's topic in Cooking</span>
-              </p>
-            </div>
-
-            <div class="post-content">
-              <div>
-                <blockquote class="small">
-                  <div class="author">
-                    <a href="/user/robin" class=""> robin</a>
-                    <span class="time">a month ago</span>
-                    <i class="fa fa-caret-down"></i>
-                  </div>
-
-                  <div class="quote">
-                    <p>
-                      Is horseradish and Wasabi the same thing? I&amp;#39;ve
-                      heard so many different things.
-                    </p>
-                  </div>
-                </blockquote>
-
-                <p>They're not the same!</p>
-              </div>
-            </div>
-
-            <div class="thread-details">
-              <span>2 days ago</span>
-              <span>1 comment</span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>

@@ -18,6 +18,9 @@ export const useUserStore = defineStore('userStore', {
 
       return {
         ...user,
+        get posts() {
+          return allStore.postStore().posts
+        },
         get postsCount() {
           return user.postsCount || 0
         },
