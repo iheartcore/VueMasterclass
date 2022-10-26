@@ -6,6 +6,7 @@
     data() {
       return {
         userDropdownOpen: false,
+        mobileNavMenu: false,
       }
     },
     computed: {
@@ -13,28 +14,37 @@
         authUser: (store) => store.authUser,
       }),
     },
+    created() {
+      this.$router.beforeEach(() => {
+        this.mobileNavMenu = false
+      })
+    },
     methods: {
       signOut() {
         allStore.authStore().signOut()
+        this.$router.push({ name: 'Home' })
       },
     },
   }
 </script>
 
 <template>
-  <header id="header" class="header">
+  <header
+    id="header"
+    v-click-outside="() => (mobileNavMenu = false)"
+    class="header"
+  >
     <router-link :to="{ name: 'Home' }" class="logo">
       <img src="../assets/svg/vueschool-logo.svg" alt="logo" />
     </router-link>
 
-    <div class="btn-hamburger">
+    <div class="btn-hamburger" @click="mobileNavMenu = !mobileNavMenu">
       <div class="top bar"></div>
       <div class="middle bar"></div>
       <div class="bottom bar"></div>
     </div>
 
-    <!-- use .navbar-open to open nav -->
-    <nav class="navbar">
+    <nav class="navbar" :class="{ 'navbar-open': mobileNavMenu }">
       <ul>
         <li v-if="authUser" class="navbar-user">
           <a
@@ -75,6 +85,12 @@
         </li>
         <li v-if="!authUser" class="navbar-item">
           <router-link :to="{ name: 'Register' }">Register</router-link>
+        </li>
+        <li v-if="authUser" class="navbar-mobile-item">
+          <router-link :to="{ name: 'Profile' }">View Profile</router-link>
+        </li>
+        <li v-if="authUser" class="navbar-mobile-item">
+          <a @click.prevent="signOut"> Sign Out</a>
         </li>
       </ul>
 
