@@ -41,7 +41,7 @@
         return count > 1 ? count + ' contributors' : count + ' contributor'
       },
       user() {
-        return allStore.userStore().getUserById(this.thread.userId)
+        return allStore.authStore().getUserById(this.thread.userId)
       },
     },
     async created() {

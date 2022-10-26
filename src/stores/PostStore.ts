@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useThreadStore } from '@/stores/ThreadStore'
-import { useUserStore } from '@/stores/UserStore'
+import { useAuthStore } from '@/stores/AuthStore'
 import { upsert, docToResource } from '@/helpers'
 import firebase from 'firebase'
 import { allStore } from '@/stores/index'
@@ -13,7 +13,7 @@ export const usePostStore = defineStore('PostStore', {
   },
   actions: {
     async createPost({ post }: { post: object }) {
-      post.userId = useUserStore().authId
+      post.userId = useAuthStore().authId
       post.publishedAt = firebase.firestore.FieldValue.serverTimestamp()
 
       const batch = firebase.firestore().batch()
@@ -25,13 +25,13 @@ export const usePostStore = defineStore('PostStore', {
       const userRef = firebase
         .firestore()
         .collection('users')
-        .doc(useUserStore().authId)
+        .doc(useAuthStore().authId)
 
       batch.set(postRef, post)
       batch.update(threadRef, {
         posts: firebase.firestore.FieldValue.arrayUnion(postRef.id),
         contributors: firebase.firestore.FieldValue.arrayUnion(
-          useUserStore().authId
+          useAuthStore().authId
         ),
       })
       batch.update(userRef, {
@@ -58,7 +58,7 @@ export const usePostStore = defineStore('PostStore', {
         id,
         edited: {
           at: firebase.firestore.FieldValue.serverTimestamp(),
-          by: useUserStore().authId,
+          by: useAuthStore().authId,
         },
       }
 

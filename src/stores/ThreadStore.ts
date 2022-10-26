@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useAuthStore } from '@/stores/AuthStore'
 import { useUserStore } from '@/stores/UserStore'
 import { usePostStore } from '@/stores/PostStore'
 import { useForumStore } from '@/stores/ForumStore'
@@ -44,7 +45,7 @@ export const useThreadStore = defineStore('ThreadStore', {
     }) {
       const postText = thread.text
       thread.forumId = forumId
-      thread.userId = useUserStore().authId
+      thread.userId = useAuthStore().authId
       thread.publishedAt = firebase.firestore.FieldValue.serverTimestamp()
       delete thread.text
 
@@ -52,7 +53,7 @@ export const useThreadStore = defineStore('ThreadStore', {
       const userRef = firebase
         .firestore()
         .collection('users')
-        .doc(useUserStore().authId)
+        .doc(useAuthStore().authId)
       const forumRef = firebase.firestore().collection('forums').doc(forumId)
       const batch = firebase.firestore().batch()
 
