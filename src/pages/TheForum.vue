@@ -16,7 +16,7 @@
     data() {
       return {
         page: 1,
-        perPage: 10,
+        perPage: 5,
       }
     },
     computed: {
@@ -30,6 +30,13 @@
         return allStore
           .threadStore()
           .threads.filter((thread) => thread.forumId === this.id)
+      },
+      threadCount() {
+        return this.forum.threads.length
+      },
+      totalPages() {
+        if (!this.threadCount || !this.perPage) return 0
+        return Math.ceil(this.threadCount / this.perPage)
       },
     },
     async created() {
@@ -48,8 +55,8 @@
       this.$emit('ready')
     },
     methods: {
-      async fetchThreads() {
-        this.page++
+      async fetchThreads(page) {
+        this.page = page
         const threads = await allStore.threadStore().fetchThreadsByPage({
           ids: this.forum.threads,
           page: this.page,
@@ -79,11 +86,42 @@
     </div>
   </div>
   <div class="col-full push-top">
-    <ThreadList
-      :threads="threads"
-      :page="page"
-      :per-page="perPage"
-      @fetch-threads="fetchThreads"
+    <ThreadList :threads="threads" />
+
+    <vue-awesome-paginate
+      v-if="totalPages > 0"
+      :total-items="threadCount"
+      :items-per-page="perPage"
+      :max-pages-shown="totalPages"
+      :current-page="page"
+      :on-click="fetchThreads"
     />
   </div>
 </template>
+
+<style>
+  .pagination-container {
+    display: flex;
+    column-gap: 10px;
+  }
+  .paginate-buttons {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: rgb(242, 242, 242);
+    border: 1px solid rgb(217, 217, 217);
+    color: black;
+  }
+  .paginate-buttons:hover {
+    background-color: #d8d8d8;
+  }
+  .active-page {
+    background-color: #3498db;
+    border: 1px solid #3498db;
+    color: white;
+  }
+  .active-page:hover {
+    background-color: #2988c8;
+  }
+</style>

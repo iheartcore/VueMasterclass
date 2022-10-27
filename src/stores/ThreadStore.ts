@@ -140,7 +140,7 @@ export const useThreadStore = defineStore('ThreadStore', {
 
       return docToResource(newThread)
     },
-    fetchThreadsByPage(ids, page, perPage = 10) {
+    fetchThreadsByPage({ ids, page, perPage = 10 }) {
       this.clearThreads()
       const chunks = chunk(ids, perPage)
       const limitedIds = chunks[page - 1]
